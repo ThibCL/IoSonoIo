@@ -1,0 +1,3 @@
+function write() {
+  alert("yessssa")
+}
