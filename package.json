@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/ThibCL/IoSonoIo/issues"
   },
-  "homepage": "https://github.com/ThibCL/IoSonoIo#readme"
+  "homepage": "https://github.com/ThibCL/IoSonoIo#readme",
+  "dependencies": {
+    "ejs": "^2.7.4",
+    "express": "^4.17.1",
+    "pg": "^7.14.0"
+  }
 }
