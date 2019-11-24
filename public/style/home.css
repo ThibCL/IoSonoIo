@@ -1,12 +1,24 @@
 body {
-  background-color: blue;
+  background-color: #359BEF;
 }
 
 .title {
   text-align: center;
-  font-size: 32pt;
+  font-size: 64px;
+  font-family: Showcard Gothic;
+  color: white;
+  margin-top: 305px;
 }
 
 .start {
   text-align: center;
+  margin-top: 77px;
+}
+
+.start a {
+  border: none;
+  font-family: Showcard Gothic;
+  color: #FDDF00;
+  background-color: inherit;
+  font-size: 32px;
 }
