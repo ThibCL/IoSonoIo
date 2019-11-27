@@ -1,0 +1,1 @@
+INSERT INTO nose(gender_id, name, value) VALUES (1, 'big', 0);
