@@ -23,8 +23,9 @@ body {
     max-width: 524px;
     max-height: 183px;
 }
-p {
+p{
     margin-bottom: 13px;
+    /* display: inline-block; */
     text-align: left;
     font-size: 20px;
 }
@@ -42,6 +43,7 @@ p {
 }
 .right-setting {
     width: 166px;
+    overflow: scroll;
 }
 .start {
     margin: 0 auto;
@@ -56,4 +58,20 @@ p {
     color: #FDDF00;
     background-color: inherit;
     font-size: 32px;
+}
+.button {
+    border: none;
+    background-color: inherit;
+    font-size: 24px;
+}
+#explaination2 {
+    text-align: left;
+    font-size: 20px; 
+    color: #9E9D9D;
+    float: left;
+    visibility: hidden; 
+    padding-bottom: 9px;
+    border: 0;
+    width: 275px;
+    border-bottom: 2px solid #359BEF;
 }
