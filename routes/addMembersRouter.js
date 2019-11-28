@@ -13,6 +13,7 @@ router.post("/game/:gameId/addmembers", jsonParser, async function(
   next
 ) {
   let client = new Client()
+  client.connect()
   let query = await client.getGame(req.params.gameId)
 
   if (query.rows.length != 1) {
@@ -44,7 +45,6 @@ router.post("/game/:gameId/addmembers", jsonParser, async function(
   }
 
   list.forEach(member => {
-    client = new Client()
     client.addMember(id, member, turn)
   })
 

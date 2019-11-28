@@ -9,11 +9,13 @@ var creategameRouter = require("./routes/startGameRouter")
 var addMembersRouter = require("./routes/addMembersRouter")
 var endGameRouter = require("./routes/endGameRouter")
 var updateAvatarRouter = require("./routes/updateAvatarRouter")
+var getAvatarRouter = require("./routes/getAvatarRouter")
 
 app.use("/", endGameRouter)
 app.use("/", homeRouter)
 app.use("/", creategameRouter)
 app.use("/", addMembersRouter)
 app.use("/", updateAvatarRouter)
+app.use("/", getAvatarRouter)
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))

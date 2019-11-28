@@ -6,6 +6,7 @@ var Client = require("./pgClient")
 /* GET users listing. */
 router.get("/startGame", async function(req, res, next) {
   let client = new Client()
+  client.connect()
   let query = await client.startGame()
 
   if (query.rows.length != 1) {
