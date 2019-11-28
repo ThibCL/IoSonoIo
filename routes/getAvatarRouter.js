@@ -4,7 +4,7 @@ var path = require("path")
 var Client = require("./pgClient")
 
 /* GET users listing. */
-router.get("/game/:gameId/getAvatar", async function(req, res, next) {
+router.get("/game/:gameId/getavatar", async function(req, res, next) {
   let client = new Client()
   client.connect()
   let query = await client.getAvatar(req.params.gameId)
