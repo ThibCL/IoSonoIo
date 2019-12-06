@@ -5,7 +5,7 @@
     recognition.interimResults = true;
     recognition.maxAlternatives = 10;
     recognition.continuous = true;
-    recognition.lang = "de-EN";
+    recognition.lang = "en-us";
 
     recognition.onresult = (event) => {
       let interimTranscript = '';
