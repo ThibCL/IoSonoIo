@@ -2,26 +2,35 @@
 <html>
   <head>
     <link rel="stylesheet" type="text/css" href="../style/3.css" />
-    <!-- <script src="js/home.js"></script> -->
+    <link rel="stylesheet" type="text/css" href="../style/mic.css" />
+    <script src="https://kit.fontawesome.com/8832483f9d.js" crossorigin="anonymous"></script>
   </head>
   <body>
     <div class="block screen">
-      <p>hello</p>
+      <!-- logo -->
+      <div id="logo-container">
+        <div id="logo">io sono io</div>
+        <div id="hint"><img src="../style/hint-grey.png" alt="hint"/></div>
+      </div>
+      <div id="avatar-container">
+        <!-- get avatar information from the server -->
+      </div>
     </div><div class="block chatbox">
+      <!-- microphone -->
+      <div id="mic-container">
+        <button id="slash-mic" type="button"><i class="fas fa-microphone-slash"></i></button>
+      </div>
       <!-- user's answer-->
-      <div style="padding: 80px 40px;">
-        <p id="user">USER</p>
+      <div id="user-chatbox" style="padding: 80px 40px;">
+        <p id="user"></p>
         <div id="answer">
-        <p id="transcription-container">
-          hi this is transcription-container transcription-container</p>
-        <p style="margin-top: 8px;">how about this?</p>
+          <!-- <p id="transcription-container"></p> : move to recognition-->
           </div>
-        </div>
-      <!---->
+      </div>
 
         
       </div>
     </div>
-    <!-- <script src="../js/automatic-speech-recognition.js"></script> -->
+    <script src="../js/speech to text.js"></script>
   </body>
 </html>

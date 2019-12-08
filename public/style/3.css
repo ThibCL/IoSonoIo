@@ -34,5 +34,38 @@
     text-align: right;
     background-color: #FDDF00;
     border-radius: 10px;
-    padding: 15px;
+    padding: 15px; /* 얘때문에 아무말도 안해도 생기는 듯 */
+}
+#mic-container {
+    text-align: center;
+    margin: 0 auto;
+    position: fixed;
+    bottom: 25px;
+    width: 37%;
+}
+button {
+    background: transparent;
+    border: inherit;
+}
+.fas {
+    font-size: 56px;
+    color: white;
+}
+#logo-container{
+    height: 27%;
+    text-align: center;
+}
+#logo {
+    color: #FDDF00; 
+    font-family: Showcard Gothic; 
+    position: absolute;
+    left: 40px;
+    top: 40px;
+}
+#hint {
+    display: inline-block;
+    height: 100%;
+}
+#hint img{
+    height: 100%;
 }
