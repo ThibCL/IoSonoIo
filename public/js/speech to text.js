@@ -40,18 +40,19 @@
           micIcon.classList.add("fa-microphone-slash");
           setTimeout(function(){
             console.log("Timeout is working now");
-            // 글 내용 초기화, 스크립트 내용도 초기화
+            // clean the context of chatbox and transciption
             finalTranscript = "";
-            // paragraph 들은 다 지운다.
+            document.querySelector("#user-chatbox").innerHTML='';
+            document.querySelector("#agent-chatbox").innerHTML='';
           }, 3000);
           // document.querySelector("#chatbox-container").innerHTML='';
 
         }
       }
-      document.querySelector('#user-chatbox').querySelector('#user').innerHTML = 'user'
+
+      document.querySelector('#user-chatbox').innerHTML = '<p id="user">user</p>' + '<div id="answer"></div>';
       document.querySelector("#answer").innerHTML = '<p id="transcription-container"></p>'
       document.querySelector('#transcription-container').innerHTML = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</>';
-      
     }
 
 

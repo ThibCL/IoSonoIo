@@ -22,7 +22,7 @@
       </div>
       <!-- chatbox container -->
       <div id="chatbox-container" style="padding: 80px 40px;">
-        <!-- agent's chat -->
+        <!-- agent's chat : #agent-chatbox.innerHTML will deleted every time speaker said -->
         <div id="agent-chatbox">
           <p id="agent">buddy</p>
           <div class="question"><p class="question-container">Good!</p></div>
@@ -31,10 +31,10 @@
         </div>
         <!-- user's chat-->
         <div id="user-chatbox">
-          <p id="user"></p>
+          <!-- <p id="user"></p>
           <div id="answer">
-            <!-- <p id="transcription-container"></p> : move to recognition -->
-            </div>
+            <p id="transcription-container"></p>
+            </div> : move to STT API-->
         </div>
       </div>
     </div>
