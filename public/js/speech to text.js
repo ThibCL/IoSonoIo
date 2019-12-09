@@ -9,15 +9,17 @@
 
     const micBtn = document.querySelector("button");
     const micIcon = micBtn.querySelector("i");
-    recognition.start();
-    console.log("recognition started");
-    if (micIcon.classList.contains("fa-microphone-slash")) {
-      micIcon.classList.remove("fa-microphone-slash");
-      micIcon.classList.add("fa-microphone");
+
+    micBtn.onclick = function() {
+      recognition.start();
+      console.log("recognition started");
+      if (micIcon.classList.contains("fa-microphone-slash")) {
+        micIcon.classList.remove("fa-microphone-slash");
+        micIcon.classList.add("fa-microphone");
+      }
     }
 
     recognition.onresult = (event) => { // run when speech recognition service return result
-
       // original code
       let interimTranscript = '';
       for (let i = event.resultIndex, len = event.results.length; i < len; i++) {
@@ -36,22 +38,20 @@
         if (micIcon.classList.contains("fa-microphone")) {
           micIcon.classList.remove("fa-microphone");
           micIcon.classList.add("fa-microphone-slash");
+          setTimeout(function(){
+            console.log("Timeout is working now");
+            // 글 내용 초기화, 스크립트 내용도 초기화
+            finalTranscript = "";
+            // paragraph 들은 다 지운다.
+          }, 3000);
+          // document.querySelector("#chatbox-container").innerHTML='';
+
         }
       }
       document.querySelector('#user-chatbox').querySelector('#user').innerHTML = 'user'
       document.querySelector("#answer").innerHTML = '<p id="transcription-container"></p>'
       document.querySelector('#transcription-container').innerHTML = finalTranscript + '<i style="color:#ddd;">' + interimTranscript + '</>';
       
-      // data for server, HTTP request
-      // const data = finalTranscript;
-      // const options = {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify(data)
-      // };
-      // fetch('/', options);
     }
 
 

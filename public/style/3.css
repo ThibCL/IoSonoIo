@@ -18,11 +18,32 @@
     width: 37%;
     height: 100vh;
 }
+
+#agent {
+    font-family: Showcard Gothic;
+    font-size: 22px;
+    text-align: left;
+    margin-left: 15px;
+    color: #E6E6E6;
+}
+.question {
+    max-width: 100%;
+    width: max-content;
+}
+.question p {
+    text-align: left;
+    background-color: #E6E6E6;
+    border-radius: 10px;
+    padding: 15px;
+    margin-top: 8px;
+}
+
 #user {
     font-family: Showcard Gothic;
     font-size: 22px;
     text-align: right;
     margin-right: 15px;
+    margin-top: 20px;
     color: #FDDF00;
 }
 #answer {
@@ -34,7 +55,8 @@
     text-align: right;
     background-color: #FDDF00;
     border-radius: 10px;
-    padding: 15px; /* 얘때문에 아무말도 안해도 생기는 듯 */
+    padding: 15px;
+    margin-top: 8px;
 }
 #mic-container {
     text-align: center;
