@@ -5,7 +5,7 @@ var bodyParser = require("body-parser")
 var Client = require("./pgClient")
 var logger = require("../logger")
 
-var jsonParser = bodyParser.json()
+var jsonParser = bodyParser.urlencoded({ extended: true })
 
 /* POST players list */
 router.post("/game/:gameId/addmembers", jsonParser, async function(
@@ -26,6 +26,8 @@ router.post("/game/:gameId/addmembers", jsonParser, async function(
 
     let id = getGameResp.game.id
     let turn = getGameResp.game.turn
+
+    console.log(req.body)
 
     let membersList = req.body.members
     if (membersList == undefined || membersList.length == 0) {
@@ -54,7 +56,7 @@ router.post("/game/:gameId/addmembers", jsonParser, async function(
     })
     console.info("All the members have been added", { members: membersList })
 
-    res.render(path.join(__dirname, "../views", "home.ejs"), {
+    res.render(path.join(__dirname, "../public/views", "begin.ejs"), {
       id: id
     })
   } catch (err) {

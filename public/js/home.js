@@ -1,3 +1,0 @@
-function write() {
-  alert("yessssa")
-}

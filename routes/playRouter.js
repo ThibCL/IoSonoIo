@@ -7,7 +7,7 @@ var dgClient = require("./dialogflowClient")
 var logger = require("../logger")
 var Avatar = require("./avatar")
 
-var jsonParser = bodyParser.json()
+var jsonParser = bodyParser.urlencoded({ extended: true })
 
 /* GET users listing. */
 router.get("/game/:gameId/play", async function(req, res, next) {
@@ -67,6 +67,7 @@ router.get("/game/:gameId/play", async function(req, res, next) {
   }
 
   let avValue = getAvatarValueResp.rows[0]
+  console.log(avValue)
   let av = new Avatar(
     avValue.gender_id,
     avValue.eye_value,
@@ -78,11 +79,14 @@ router.get("/game/:gameId/play", async function(req, res, next) {
   )
   logger.info("THe avatar is", { avatar: av })
 
-  res.render(path.join(__dirname, "../views", "home.ejs"), {
+  res.render(path.join(__dirname, "../public/views", "3.ejs"), {
+    id: gameId,
+    response: "",
     playing_player: playingPlayer,
     described_player: describedPlayer,
     question: question,
-    avatar: av.url
+    avatar: av.url,
+    end: false
   })
 })
 
@@ -91,7 +95,7 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
   let client = new Client()
   await client.connect()
 
-  let dgC = new dgClient("newagent-aribph")
+  let dgC = new dgClient("buddytesting-mqohsv")
 
   let body = req.body
   if (body == undefined || body.text == undefined) {
@@ -167,12 +171,14 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
     )
 
     console.log(playingPlayer + ": " + question)
-    res.render(path.join(__dirname, "../views", "home.ejs"), {
+    res.render(path.join(__dirname, "../public/views", "3.ejs"), {
+      id: gameId,
       response: response,
       playing_player: playingPlayer,
       described_player: describedPlayer,
       question: question,
-      avatar: av.url
+      avatar: av.url,
+      end: false
     })
     return
   }
@@ -197,6 +203,7 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
       context,
       result.parameters.fields[context].stringValue
     )
+    console.log(result.parameters.fields[context].stringValue)
     if (getValueResp.rowCount < 1) {
       res
         .status(500)
@@ -219,9 +226,35 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
     gameId
   )
 
+  let getAvatarValueResp = await client.getAvatarValue(gameId)
+  if (getAvatarValueResp.rowCount == 0) {
+    res.status(500).send("Please replay a new game")
+  }
+
+  let avValue = getAvatarValueResp.rows[0]
+  let av = new Avatar(
+    avValue.gender_id,
+    avValue.eye_value,
+    avValue.hair_value,
+    avValue.mouth_value,
+    avValue.nose_value,
+    avValue.hair_tone_value,
+    avValue.pupil_tone_value
+  )
+
+  let response = result.fulfillmentText
+
   let getQuestionLeftResp = await client.getQuestionsLeft(gameId)
   if (getQuestionLeftResp.rowCount == 0) {
-    res.status(200).send("The game is finished")
+    res.render(path.join(__dirname, "../public/views", "3.ejs"), {
+      id: gameId,
+      response: response,
+      playing_player: "",
+      described_player: "",
+      question: "Well done the game is finish",
+      avatar: av.url,
+      end: true
+    })
     return
   }
 
@@ -259,37 +292,22 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
     ]
   await client.beginPlayerTurn(playing_player.player_id)
 
-  let response = result.fulfillmentText
   let describedPlayer = avatar.name
-
-  let getAvatarValueResp = await client.getAvatarValue(gameId)
-  if (getAvatarValueResp.rowCount == 0) {
-    res.status(500).send("Please replay a new game")
-  }
 
   let question = getQuestionResp.rows[0].question.replace(
     "$name",
     describedPlayer
   )
 
-  let avValue = getAvatarValueResp.rows[0]
-  let av = new Avatar(
-    avValue.gender_id,
-    avValue.eye_value,
-    avValue.hair_value,
-    avValue.mouth_value,
-    avValue.nose_value,
-    avValue.hair_tone_value,
-    avValue.pupil_tone_value
-  )
-
   console.log(playing_player.name + ": " + question)
-  res.render(path.join(__dirname, "../views", "home.ejs"), {
+  res.render(path.join(__dirname, "../public/views", "3.ejs"), {
+    id: gameId,
     response: response,
     playing_player: playing_player.name,
     described_player: describedPlayer,
     question: question,
-    avatar: av.url
+    avatar: av.url,
+    end: false
   })
   return
 })

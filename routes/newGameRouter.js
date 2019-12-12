@@ -20,7 +20,7 @@ router.get("/newGame", async function(req, res, next) {
 
     let id = newGameResp.game.id
     logger.info("New game created", { id: id })
-    res.render(path.join(__dirname, "../views", "home.ejs"), { id: id })
+    res.render(path.join(__dirname, "../public/views", "2.ejs"), { id: id })
   } catch (err) {
     logger.error(err.message, err)
     res.status(500).send("Unexpected error occured, please retry")

@@ -73,11 +73,15 @@ router.get("/game/:gameId/begin", async function(req, res, next) {
     question: getQuestionResp.rows[0]
   })
 
-  res.render(path.join(__dirname, "../views", "home.ejs"), {
+  res.render(path.join(__dirname, "../public/views", "3.ejs"), {
+    id: gameId,
+    response: "Ok let's begin!",
     player_described: playerDescribed.name,
-    playing_player: playingPlayer,
+    playing_player: playingPlayer.name,
     question: question,
-    avatar_url: "url"
+    avatar:
+      "https://preview.bitmoji.com/avatar-builder-v3/preview/head?scale=1&gender=1&style=1&rotation=0&beard=-1&brow=-1&cheek_details=-1&ear=-1&earring=-1&eye=-1&eyelash=-1&eye_details=-1&face_lines=-1&glasses=-1&hair=490&hat=-1&jaw=185&mouth=-1&nose=-1&pupil=-1&beard_tone=-1&blush_tone=-1&brow_tone=-1&eyeshadow_tone=-1&hair_tone=-1&lipstick_tone=-1&pupil_tone=-1&skin_tone=-1&body=0&face_proportion=0",
+    end: false
   })
 })
 

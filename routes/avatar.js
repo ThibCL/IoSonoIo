@@ -7,7 +7,7 @@ class Avatar {
       eye = -1
     }
     if (hair == undefined) {
-      hair = -1
+      hair = 490
     }
     if (mouth == undefined) {
       mouth = -1
@@ -33,7 +33,7 @@ class Avatar {
       mouth.toString() +
       "&nose=" +
       nose.toString() +
-      "&pupil=-1&beard_tone=-1&blush_tone=-1&brow_tone=-1&eyeshadow_tone=-1&hair_tone=" +
+      "&pupil=216&beard_tone=-1&blush_tone=-1&brow_tone=-1&eyeshadow_tone=-1&hair_tone=" +
       hair_tone.toString() +
       "&lipstick_tone=-1&pupil_tone=" +
       pupil_tone.toString() +

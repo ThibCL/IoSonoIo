@@ -5,18 +5,17 @@ var Client = require("./pgClient")
 
 /* GET users listing. */
 router.get("/game/:gameId/endgame", async function(req, res, next) {
-  console.log("test")
   let client = new Client()
   client.connect()
   let game = await client.getGame(req.params.gameId)
 
-  if (game.rows.length != 1) {
+  if (game.error == true) {
     res.status(400).send("The game does not exist")
     return
   }
-  await client.endGame(req.params.gameId)
+  await client.endGame(game.game.id)
 
-  res.render(path.join(__dirname, "../views", "home.ejs"))
+  res.render(path.join(__dirname, "../public/views", "home.ejs"))
 })
 
 module.exports = router

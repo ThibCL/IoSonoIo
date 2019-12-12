@@ -54,6 +54,7 @@ class Client {
   async endGame(id) {
     await this.cl.query("DELETE FROM avatar WHERE id = $1", [id])
     await this.cl.query("DELETE FROM player WHERE id = $1", [id])
+    await this.cl.query("DELETE FROM question_asked WHERE id = $1", [id])
     await this.cl.query("DELETE FROM game WHERE id = $1;", [id])
   }
 
@@ -187,7 +188,7 @@ class Client {
 
   async getAvatarValue(gameId) {
     let query = await this.cl.query(
-      "SELECT avatar_id, hair.value AS hair_value, nose.value AS nose_value, hair_tone.value AS hair_tone_value, mouth.value AS mouth_value, pupil_tone.value AS pupil_tone_value, avatar.gender_id FROM avatar LEFT JOIN hair ON avatar.hair_id=hair.hair_id LEFT JOIN nose ON avatar.nose_id=nose.nose_id LEFT JOIN hair_tone ON avatar.hair_tone_id=hair_tone.hair_tone_id LEFT JOIN mouth ON avatar.mouth_id=mouth.mouth_id LEFT JOIN pupil_tone ON avatar.pupil_tone_id=pupil_tone.pupil_tone_id LEFT JOIN eye ON avatar.eye_id=eye.eye_id WHERE avatar.id=$1 ",
+      "SELECT avatar_id,eye.value AS eye_value, hair.value AS hair_value, nose.value AS nose_value, hair_tone.value AS hair_tone_value, mouth.value AS mouth_value, pupil_tone.value AS pupil_tone_value, avatar.gender_id FROM avatar LEFT JOIN hair ON avatar.hair_id=hair.hair_id LEFT JOIN nose ON avatar.nose_id=nose.nose_id LEFT JOIN hair_tone ON avatar.hair_tone_id=hair_tone.hair_tone_id LEFT JOIN mouth ON avatar.mouth_id=mouth.mouth_id LEFT JOIN pupil_tone ON avatar.pupil_tone_id=pupil_tone.pupil_tone_id LEFT JOIN eye ON avatar.eye_id=eye.eye_id WHERE avatar.id=$1 ",
       [gameId]
     )
     return query
