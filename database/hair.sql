@@ -1,0 +1,1 @@
+INSERT INTO hair(gender_id, name, value) VALUES (1, 'short', 0);

@@ -1,0 +1,1 @@
+INSERT INTO pupil_tone(gender_id, name, value) VALUES (1, 'blue', 0);
