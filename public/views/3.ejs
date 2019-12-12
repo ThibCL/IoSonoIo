@@ -21,25 +21,26 @@
       <div id="mic-container">
         <button id="slash-mic" type="button"><i class="fas fa-microphone-slash"></i></button>
       </div>
-      <!-- user's answer-->
-      <div id="user-chatbox" style="padding: 80px 40px;">
-       
-       
-        <p id="user"> 
-          <% if (response != "") { %>
-          <p><%=response%></h2>
-          <% } %>
-          <p><%=playing_player%>, <%=question%></p>
-          <!-- <p id="transcription-container"></p> : move to recognition-->
-        </p>
-  
-        <div id="answer"> 
+
+      <div id="chatbox-container" style="padding: 80px 40px;">
+        <!-- agent's chat : #agent-chatbox.innerHTML will deleted every time speaker said -->
+        <div id="agent-chatbox">
+          <p id="agent">buddy</p>
+          <div class="question">
+            <p id="user">
+            <% if (response != "") { %>
+            <p><%=response%></p>
+            <% } %>
+            <p><%=playing_player%>, <%=question%></p>
+            </p>
+          </div>  
+          </div>
         </div>
 
-        <form class="play_form" method="POST" action="/game/<%=id%>/play">
-        </form>
-
-      </div>
+      <!-- user's answer-->
+      <div id="user-chatbox" style="padding: 80px 40px;"></div>
+      <form class="play_form" method="POST" action="/game/<%=id%>/play">
+      </form>
 
       <div>
         <% if (end==true) { %>

@@ -42,6 +42,13 @@ recognition.onresult = event => {
     if (micIcon.classList.contains("fa-microphone")) {
       micIcon.classList.remove("fa-microphone")
       micIcon.classList.add("fa-microphone-slash")
+      setTimeout(function() {
+        console.log("Timeout is working now")
+        // clean the context of chatbox and transciption
+        finalTranscript = ""
+        document.querySelector("#user-chatbox").innerHTML = ""
+        document.querySelector("#agent-chatbox").innerHTML = ""
+      }, 3000)
     }
 
     var inp = document.createElement("input")
@@ -49,11 +56,13 @@ recognition.onresult = event => {
     inp.name = "text"
     inp.value = finalTranscript
     let form = document.getElementsByClassName("play_form")
+    console.log(form)
     form[0].appendChild(inp)
     form[0].submit()
   }
-  document.querySelector("#user-chatbox").querySelector("#user").innerHTML =
-    "user"
+
+  document.querySelector("#user-chatbox").innerHTML =
+    '<p id="user">user</p>' + '<div id="answer"></div>'
   document.querySelector("#answer").innerHTML =
     '<p id="transcription-container"></p>'
   document.querySelector("#transcription-container").innerHTML =
