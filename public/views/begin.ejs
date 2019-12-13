@@ -1,12 +1,58 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="/style/begin.css" />
+    <style>
+      body {
+        background-color: #359BEF;
+        font-family: AppleSDGothicNeoR00;
+        font-size: 24px;
+        text-align: center;
+        margin: 0px;
+        padding: 0px;
+      }
+      .title {
+        font-family: Showcard Gothic;
+        font-size: 48px;
+        color: white;
+        margin-top: 212px;
+        margin-bottom: 51px;
+      }
+      .setting {
+      /* border: 5px solid red; */
+      margin: 0 auto;
+      max-width: 823px;
+    }
+    p {
+      color: #343434;
+      text-align: left;
+      font-size: 20px;
+      margin: 0px;
+    }
+    input {
+      color: #FDDF00;
+      background-color: inherit;
+      border: none;
+      font-size: 32px;
+      font-family: Showcard Gothic;
+      margin-top: 13px;
+    }
+      </style>
   </head>
 
   <body>
-    <div>
-      <h1>Io Sono Io rules</h1>
+    <div class="title">Io Sono Io</div>
+    <div class="setting">
+        <p style="color: white; font-size: 24px; margin-bottom: 13px;">Game Rules</p>
+        <div style="background-color: white; padding: 24px; border-radius: 10px;">
+          <p>1. ‘Buddy’ will select person who will be described<br>
+            2. Also, ‘Buddy’ will select one more person who will start the game YOU!<br>
+            3. ‘Buddy’ will ask you with random component what you have to describe<br>
+            4. If you are ready, just click the microphone icon<br>
+            5. Then, microphone icon will glowing ! <br>
+            6. Describe your friend how he/she looks like that ‘Buddy’ asked you <br>
+            7. Then, ‘Buddy’ create an avatar <br>
+          </p>
+      </div>
     </div>
     <div>
       <form method="GET" action="/game/<%=id%>/begin">
