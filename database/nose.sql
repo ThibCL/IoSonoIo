@@ -1,1 +1,10 @@
-INSERT INTO nose(gender_id, name, value) VALUES (1, 'big', 0);
+INSERT INTO nose(gender_id, name, value) VALUES (1, 'big', 1437);
+INSERT INTO nose(gender_id, name, value) VALUES (2, 'big', 1515);
+INSERT INTO nose(gender_id, name, value) VALUES (1, 'small', 1435);
+INSERT INTO nose(gender_id, name, value) VALUES (2, 'small', 1510);
+INSERT INTO nose(gender_id, name, value) VALUES (1, 'long', 1482);
+INSERT INTO nose(gender_id, name, value) VALUES (2, 'long', 1501);
+INSERT INTO nose(gender_id, name, value) VALUES (1, 'aquiline', 1458);
+INSERT INTO nose(gender_id, name, value) VALUES (2, 'aquiline', 1535);
+INSERT INTO nose(gender_id, name, value) VALUES (1, 'snub', 1488);
+INSERT INTO nose(gender_id, name, value) VALUES (2, 'snub', 1522);

@@ -103,3 +103,8 @@ button {
 #hint img {
   height: 100%;
 }
+
+#end {
+  text-align: center;
+  font-family: Showcard Gothic;
+}

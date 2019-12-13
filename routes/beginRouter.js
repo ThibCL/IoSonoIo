@@ -64,9 +64,11 @@ router.get("/game/:gameId/begin", async function(req, res, next) {
   }
 
   let question = getQuestionResp.rows[0].question.replace(
-    "$name",
+    /Described/g,
     playerDescribed.name
   )
+  question = question.replace(/User/g, playingPlayer.name)
+
   await client.activeQuestion(getQuestionResp.rows[0].question_id, gameId)
   logger.info("The question is now active", {
     id: gameId,

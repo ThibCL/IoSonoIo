@@ -15,13 +15,21 @@
       <div id="avatar-container">
         <!-- get avatar information from the server -->
         <img src="<%=avatar%>">
+        <div>
+          <% if (end==true) { %>
+          <form method="GET" action="/game/<%=id%>/endgame">
+            <input id="end" type="submit" value="end">
+          </form>
+          <% } %>
+        </div>
       </div>
     </div><div class="block chatbox">
       <!-- microphone -->
+      <% if (end==false) { %>
       <div id="mic-container">
         <button id="slash-mic" type="button"><i class="fas fa-microphone-slash"></i></button>
       </div>
-
+      <% } %>
       <div id="chatbox-container" style="padding: 80px 40px;">
         <!-- agent's chat : #agent-chatbox.innerHTML will deleted every time speaker said -->
         <div id="agent-chatbox">
@@ -31,25 +39,18 @@
             <% if (response != "") { %>
             <p><%=response%></p>
             <% } %>
-            <p><%=playing_player%>, <%=question%></p>
+            <p><%=question%></p>
            
           </div>  
           </div>
-        </div>
 
-      <!-- user's answer-->
-      <div id="user-chatbox" style="padding: 80px 40px;"></div>
-      <form class="play_form" method="POST" action="/game/<%=id%>/play">
-      </form>
-
-      <div>
-        <% if (end==true) { %>
-          <form method="GET" action="/game/<%=id%>/endgame">
-            <p id="end"></p>
-            <input type="submit" value="end">
+          <div id="user-chatbox" style="padding: 80px 40px;"></div>
+          <form class="play_form" method="POST" action="/game/<%=id%>/play">
           </form>
-          <% } %>
-      </div>
+        </div>     
+     
+
+      
 
         
       </div>

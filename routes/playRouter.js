@@ -56,9 +56,10 @@ router.get("/game/:gameId/play", async function(req, res, next) {
   let describedPlayer = avatar.name
 
   let question = getActiveQuestionResp.rows[0].question.replace(
-    "$name",
+    /Described/g,
     describedPlayer
   )
+  question = question.replace(/User/g, playingPlayer)
   logger.info("The question active is", { active_question: question })
 
   let getAvatarValueResp = await client.getAvatarValue(gameId)
@@ -77,7 +78,7 @@ router.get("/game/:gameId/play", async function(req, res, next) {
     avValue.hair_tone_value,
     avValue.pupil_tone_value
   )
-  logger.info("THe avatar is", { avatar: av })
+  logger.info("The avatar is", { avatar: av })
 
   res.render(path.join(__dirname, "../public/views", "3.ejs"), {
     id: gameId,
@@ -152,14 +153,17 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
     let playingPlayer = getPlayerTurnRes.rows[0].name
     let describedPlayer = avatar.name
     let question = getActiveQuestionResp.rows[0].question
+    question = question.replace(/Described/g, describedPlayer)
+    question = question.replace(/User/g, playingPlayer)
     let response = result.fulfillmentText
 
-    let getAvatarResp = await client.getAvatar(gameId)
+    let getAvatarResp = await client.getAvatarValue(gameId)
     if (getAvatarResp.rowCount == 0) {
       res.status(500).send("Please replay a new game")
     }
 
     let avValue = getAvatarResp.rows[0]
+    console.log(avValue)
     let av = new Avatar(
       avValue.gender_id,
       avValue.eye_value,
@@ -170,7 +174,6 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
       avValue.pupil_tone_value
     )
 
-    console.log(playingPlayer + ": " + question)
     res.render(path.join(__dirname, "../public/views", "3.ejs"), {
       id: gameId,
       response: response,
@@ -205,9 +208,42 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
     )
     console.log(result.parameters.fields[context].stringValue)
     if (getValueResp.rowCount < 1) {
-      res
-        .status(500)
-        .send("Value send by dg does not coorespond with value in db")
+      logger.info("Value not in db", {
+        value: result.parameters.fields[context].stringValue
+      })
+      let playingPlayer = getPlayerTurnRes.rows[0].name
+      let describedPlayer = avatar.name
+      let question = getActiveQuestionResp.rows[0].question
+      question = question.replace(/Described/g, describedPlayer)
+      question = question.replace(/User/g, playingPlayer)
+
+      let getAvatarResp = await client.getAvatarValue(gameId)
+      if (getAvatarResp.rowCount == 0) {
+        res.status(500).send("Please replay a new game")
+      }
+
+      let avValue = getAvatarResp.rows[0]
+      console.log(avValue)
+      let av = new Avatar(
+        avValue.gender_id,
+        avValue.eye_value,
+        avValue.hair_value,
+        avValue.mouth_value,
+        avValue.nose_value,
+        avValue.hair_tone_value,
+        avValue.pupil_tone_value
+      )
+
+      console.log(playingPlayer + ": " + question)
+      res.render(path.join(__dirname, "../public/views", "3.ejs"), {
+        id: gameId,
+        response: "Sorry we don't know yet what that mean, try something else",
+        playing_player: playingPlayer,
+        described_player: describedPlayer,
+        question: question,
+        avatar: av.url,
+        end: false
+      })
       return
     }
 
@@ -242,7 +278,11 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
     avValue.pupil_tone_value
   )
 
+  let playingPlayer = getPlayerTurnRes.rows[0].name
+  let describedPlayer = avatar.name
   let response = result.fulfillmentText
+  response = response.replace(/Described/g, describedPlayer)
+  response = response.replace(/User/g, playingPlayer)
 
   let getQuestionLeftResp = await client.getQuestionsLeft(gameId)
   if (getQuestionLeftResp.rowCount == 0) {
@@ -292,12 +332,11 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
     ]
   await client.beginPlayerTurn(playing_player.player_id)
 
-  let describedPlayer = avatar.name
-
   let question = getQuestionResp.rows[0].question.replace(
-    "$name",
+    /Described/g,
     describedPlayer
   )
+  question = question.replace(/User/g, playing_player.name)
 
   console.log(playing_player.name + ": " + question)
   res.render(path.join(__dirname, "../public/views", "3.ejs"), {
