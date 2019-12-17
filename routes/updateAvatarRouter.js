@@ -9,11 +9,13 @@ var jsonParser = bodyParser.json()
 /* GET users listing. */
 router.post("/updateavatar", jsonParser, async function(req, res, next) {
   let client = new Client()
+  await client.connect()
 
   let game = await client.getGame(req.body.id)
 
   if (game.rows.length != 1) {
     res.status(404).send("This game does not exsit")
+    await client.disconnect()
     return
   }
 
@@ -24,6 +26,7 @@ router.post("/updateavatar", jsonParser, async function(req, res, next) {
 
   if (idValue.rows.length != 1) {
     res.status(404).send("The value of the body part does not exsit")
+    await client.disconnect()
     return
   }
 
@@ -33,6 +36,7 @@ router.post("/updateavatar", jsonParser, async function(req, res, next) {
     idValue.rows[0][req.body.table + "_id"]
   )
 
+  await client.disconnect()
   res.render(path.join(__dirname, "../views", "home.ejs"))
 })
 

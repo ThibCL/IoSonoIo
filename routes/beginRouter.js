@@ -6,18 +6,21 @@ var logger = require("../logger")
 
 router.get("/game/:gameId/begin", async function(req, res, next) {
   let client = new Client()
+  await client.connect()
 
   let gameId = req.params.gameId
   let getGameResp = await client.getGame(gameId)
   if (getGameResp.error == true) {
     logger.error(getGameResp.message, { id: gameId })
     res.status(getGameResp.status).send(getGameResp.message)
+    await client.disconnect()
     return
   }
 
   let getAvatarResp = await client.getAvatar(gameId)
   if (getAvatarResp.rowCount != 0) {
     res.redirect("/game/" + gameId + "/play")
+    await client.disconnect()
     return
   }
 
@@ -59,6 +62,7 @@ router.get("/game/:gameId/begin", async function(req, res, next) {
   if (getQuestionResp.rowCount < 1) {
     logger.error("Question not found", { id: gameId, question: "gender" })
     res.status(500).send("Question on the gender not found")
+    await client.disconnect()
     return
   }
 
@@ -74,6 +78,7 @@ router.get("/game/:gameId/begin", async function(req, res, next) {
     question: getQuestionResp.rows[0]
   })
 
+  await client.disconnect()
   res.render(path.join(__dirname, "../public/views", "3.ejs"), {
     id: gameId,
     response: "Ok let's begin!",

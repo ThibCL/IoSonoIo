@@ -6,6 +6,7 @@ var Client = require("./pgClient")
 /* GET users listing. */
 router.get("/game/:gameId/endgame", async function(req, res, next) {
   let client = new Client()
+  await client.connect()
   let game = await client.getGame(req.params.gameId)
 
   if (game.error == true) {
@@ -13,6 +14,7 @@ router.get("/game/:gameId/endgame", async function(req, res, next) {
     return
   }
   await client.endGame(game.game.id)
+  await client.disconnect()
 
   res.render(path.join(__dirname, "../public/views", "home.ejs"))
 })

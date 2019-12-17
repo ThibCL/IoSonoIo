@@ -12,10 +12,12 @@ var jsonParser = bodyParser.urlencoded({ extended: true })
 /* GET users listing. */
 router.get("/game/:gameId/play", async function(req, res, next) {
   let client = new Client()
+  await client.connect()
 
   let gameId = req.params.gameId
   let getGameResp = await client.getGame(gameId)
   if (getGameResp.error == true) {
+    await client.disconnect()
     logger.error(getGameResp.message, { id: gameId })
     return getGameResp
   }
@@ -25,6 +27,7 @@ router.get("/game/:gameId/play", async function(req, res, next) {
   // Check if the game has already begun and if it does not, redirect to the begin endpoint
   if (getAvatarResp.rowCount == 0) {
     logger.error("The game has not begun yet", { id: gameId })
+    await client.disconnect()
     return {
       error: true,
       status: 400,
@@ -39,6 +42,7 @@ router.get("/game/:gameId/play", async function(req, res, next) {
   //Check if it is the turn of someOne
   if (getPlayerTurnResp.rowCount < 1) {
     res.status(500).send("Please replay a new game")
+    await client.disconnect()
     return
   }
 
@@ -49,6 +53,7 @@ router.get("/game/:gameId/play", async function(req, res, next) {
 
   //Check if there is a activated question
   if (getActiveQuestionResp.rowCount < 1) {
+    await client.disconnect()
     res.status(500).send("Please replay a new game")
   }
 
@@ -63,6 +68,7 @@ router.get("/game/:gameId/play", async function(req, res, next) {
 
   let getAvatarValueResp = await client.getAvatarValue(gameId)
   if (getAvatarResp.rowCount == 0) {
+    await client.disconnect()
     res.status(500).send("Please replay a new game")
   }
 
@@ -79,6 +85,7 @@ router.get("/game/:gameId/play", async function(req, res, next) {
   )
   logger.info("The avatar is", { avatar: av })
 
+  await client.disconnect()
   res.render(path.join(__dirname, "../public/views", "3.ejs"), {
     id: gameId,
     response: "",
@@ -93,12 +100,14 @@ router.get("/game/:gameId/play", async function(req, res, next) {
 /* GET users listing. */
 router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
   let client = new Client()
+  await client.connect()
 
   let dgC = new dgClient("buddytesting-mqohsv")
 
   let body = req.body
   if (body == undefined || body.text == undefined) {
     res.status(400).send("The request must have a text in the body")
+    await client.disconnect()
     return
   }
 
@@ -108,6 +117,7 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
   let getGameResp = await client.getGame(gameId)
   if (getGameResp.error == true) {
     logger.error(getGameResp.message, { id: gameId })
+    await client.disconnect()
     return getGameResp
   }
 
@@ -116,6 +126,7 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
   // Check if the game has already begun and if it does not, redirect to the begin endpoint
   if (getAvatarResp.rowCount == 0) {
     logger.error("The game has not begun yet", { id: gameId })
+    await client.disconnect()
     return {
       error: true,
       status: 400,
@@ -130,6 +141,7 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
   let getActiveQuestionResp = await client.getActiveQuestion(gameId)
   if (getActiveQuestionResp.rowCount < 1) {
     res.status(500).send("Please replay a new game")
+    await client.disconnect()
     return
   }
 
@@ -141,6 +153,7 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
 
   //Check if it is the turn of someOne
   if (getPlayerTurnRes.rowCount < 1) {
+    await client.disconnect()
     res.status(500).send("Please replay a new game")
     return
   }
@@ -157,6 +170,7 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
 
     let getAvatarResp = await client.getAvatarValue(gameId)
     if (getAvatarResp.rowCount == 0) {
+      await client.disconnect()
       res.status(500).send("Please replay a new game")
     }
 
@@ -172,6 +186,7 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
       avValue.pupil_tone_value
     )
 
+    await client.disconnect()
     res.render(path.join(__dirname, "../public/views", "3.ejs"), {
       id: gameId,
       response: response,
@@ -192,6 +207,7 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
       result.parameters.fields[context].stringValue
     )
     if (getGenderResp.rowCount < 1) {
+      await client.disconnect()
       res.status(500).send("Please replay a new game")
       return
     }
@@ -232,6 +248,7 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
         avValue.pupil_tone_value
       )
 
+      await client.disconnect()
       console.log(playingPlayer + ": " + question)
       res.render(path.join(__dirname, "../public/views", "3.ejs"), {
         id: gameId,
@@ -262,6 +279,7 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
 
   let getAvatarValueResp = await client.getAvatarValue(gameId)
   if (getAvatarValueResp.rowCount == 0) {
+    await client.disconnect()
     res.status(500).send("Please replay a new game")
   }
 
@@ -284,6 +302,7 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
 
   let getQuestionLeftResp = await client.getQuestionsLeft(gameId)
   if (getQuestionLeftResp.rowCount == 0) {
+    await client.disconnect()
     res.render(path.join(__dirname, "../public/views", "3.ejs"), {
       id: gameId,
       response: response,
@@ -305,6 +324,7 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
 
   let getQuestionResp = await client.getQuestion(questionId)
   if (getQuestionResp.rowCount == 0) {
+    await client.disconnect()
     res.status(500).send("Question does not exist..")
     return
   }
@@ -319,6 +339,7 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
 
     // Error improbable
     if (getMembersToPlayResp.rowCount == 0) {
+      await client.disconnect()
       res.status(500).send("Please replay a new game")
       return
     }
@@ -336,6 +357,7 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
   )
   question = question.replace(/User/g, playing_player.name)
 
+  await client.disconnect()
   console.log(playing_player.name + ": " + question)
   res.render(path.join(__dirname, "../public/views", "3.ejs"), {
     id: gameId,
