@@ -2,10 +2,9 @@ var pg = require("pg")
 
 class Client {
   constructor() {
-    this.cl = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    this.cl = new pg.Client(process.env.DATABASE_URL, true)
   }
+  //"postgres://postgres:gameboy@localhost:5432/iosonoio"
 
   async connect() {
     await this.cl.connect()
