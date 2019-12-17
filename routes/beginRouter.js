@@ -6,7 +6,6 @@ var logger = require("../logger")
 
 router.get("/game/:gameId/begin", async function(req, res, next) {
   let client = new Client()
-  await client.connect()
 
   let gameId = req.params.gameId
   let getGameResp = await client.getGame(gameId)

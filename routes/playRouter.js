@@ -12,7 +12,6 @@ var jsonParser = bodyParser.urlencoded({ extended: true })
 /* GET users listing. */
 router.get("/game/:gameId/play", async function(req, res, next) {
   let client = new Client()
-  await client.connect()
 
   let gameId = req.params.gameId
   let getGameResp = await client.getGame(gameId)
@@ -94,7 +93,6 @@ router.get("/game/:gameId/play", async function(req, res, next) {
 /* GET users listing. */
 router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
   let client = new Client()
-  await client.connect()
 
   let dgC = new dgClient("buddytesting-mqohsv")
 

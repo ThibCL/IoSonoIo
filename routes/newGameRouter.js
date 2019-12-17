@@ -9,7 +9,6 @@ var Avatar = require("./avatar")
 router.get("/newGame", async function(req, res, next) {
   try {
     let client = new Client()
-    await client.connect()
 
     let newGameResp = await client.newGame()
     if (newGameResp.error == true) {

@@ -15,7 +15,6 @@ router.post("/game/:gameId/addmembers", jsonParser, async function(
 ) {
   try {
     let client = new Client()
-    client.connect()
 
     let getGameResp = await client.getGame(req.params.gameId)
     if (getGameResp.error == true) {

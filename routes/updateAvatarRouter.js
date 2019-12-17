@@ -9,7 +9,7 @@ var jsonParser = bodyParser.json()
 /* GET users listing. */
 router.post("/updateavatar", jsonParser, async function(req, res, next) {
   let client = new Client()
-  client.connect()
+
   let game = await client.getGame(req.body.id)
 
   if (game.rows.length != 1) {
