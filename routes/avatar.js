@@ -4,10 +4,18 @@ class Avatar {
       gender = 1
     }
     if (eye == undefined) {
-      eye = -1
+      if (pupil_tone == undefined) {
+        eye = -1
+      } else {
+        eye = 1619
+      }
     }
     if (hair == undefined) {
-      hair = 2290
+      if (hair_tone == undefined) {
+        hair = 2290
+      } else {
+        hair = 1670
+      }
     }
     if (mouth == undefined) {
       mouth = -1

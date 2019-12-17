@@ -6,6 +6,9 @@
   "scripts": {
     "test": "jest"
   },
+  "engines": {
+    "node": "10.13.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ThibCL/IoSonoIo.git"
