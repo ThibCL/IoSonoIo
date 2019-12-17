@@ -41,7 +41,7 @@ router.post("/game/:gameId/addmembers", jsonParser, async function(
 
     //Deduplicate
     let verif = false
-    membersList.forEach((value, index) => {
+    membersList.forEach(async (value, index) => {
       if (membersList.indexOf(value) != index) {
         verif = true
         await client.disconnect()
