@@ -3,6 +3,7 @@ var router = express.Router()
 var path = require("path")
 var Client = require("./pgClient")
 var logger = require("../logger")
+var BadRequestError = require("../error")
 
 router.get("/game/:gameId/begin", async function(req, res, next) {
   try {

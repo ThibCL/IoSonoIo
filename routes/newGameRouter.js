@@ -4,6 +4,7 @@ var path = require("path")
 var Client = require("./pgClient")
 var logger = require("../logger")
 var Avatar = require("./avatar")
+var BadRequestError = require("../error")
 
 /* GET users listing. */
 router.get("/newGame", async function(req, res, next) {

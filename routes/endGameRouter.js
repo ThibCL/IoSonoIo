@@ -2,6 +2,7 @@ var express = require("express")
 var router = express.Router()
 var path = require("path")
 var Client = require("./pgClient")
+var BadRequestError = require("../error")
 
 /* GET users listing. */
 router.get("/game/:gameId/endgame", async function(req, res, next) {
