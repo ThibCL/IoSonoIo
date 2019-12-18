@@ -228,15 +228,18 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
 
     let getQuestionResp = await client.getQuestion(questionId)
 
-    let getMembersToPlayResp = await client.getMembersToPlay(gameId, game.turn)
+    let getMembersToPlayResp = await client.getMembersToPlay(
+      gameId,
+      getGameResp.turn
+    )
 
     // If everyone has done one turn
     if (getMembersToPlayResp.length == 0) {
-      await client.nextTurn(game.turn + 1, gameId)
+      await client.nextTurn(getGameResp.turn + 1, gameId)
 
       getMembersToPlayResp = await client.getMembersToPlay(
         gameId,
-        game.turn + 1
+        getGameResp.turn + 1
       )
 
       // Error improbable
