@@ -182,8 +182,8 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
     await client.updateAvatar(gameId, context, id)
 
     await client.playerNextTurn(
-      getPlayerTurnRes[0].turn_played + 1,
-      getPlayerTurnRes[0].player_id
+      getPlayerTurnRes.turn_played + 1,
+      getPlayerTurnRes.player_id
     )
 
     await client.desactiveQuestion(getActiveQuestionResp[0].question_id, gameId)
