@@ -279,6 +279,7 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
         .render(path.join(__dirname, "../public/views", "error.ejs"), {
           error: err.message
         })
+      return
     }
 
     res

@@ -171,7 +171,7 @@ class Client {
       )
 
       if (query.rowCount == 0) {
-        logger.error("No value correspond to this name in the database")
+        logger.error("No value correspond to this name in the database:" + name)
         throw new BadRequestError(
           "This name does not exist yet, please reformulate your sentence"
         )

@@ -10,7 +10,7 @@ router.get("/game/:gameId/endgame", async function(req, res, next) {
     let client = new Client()
     await client.getGame(req.params.gameId)
 
-    await client.endGame(game.game.id)
+    await client.endGame(req.params.gameId)
 
     res.render(path.join(__dirname, "../public/views", "home.ejs"))
   } catch (e) {
