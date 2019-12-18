@@ -11,3 +11,5 @@ class BadRequestError extends Error {
     return this.status
   }
 }
+
+module.exports = BadRequestError
