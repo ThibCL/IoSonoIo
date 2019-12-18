@@ -16,7 +16,7 @@ router.get("/game/:gameId/play", async function(req, res, next) {
     let client = new Client()
 
     let gameId = req.params.gameId
-    let getGameResp = await client.getGame(gameId)
+    await client.getGame(gameId)
 
     let getAvatarResp
     try {
@@ -125,6 +125,7 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
     let result = await dgC.runSample(text, context)
 
     let getPlayerTurnRes = await client.getPlayerTurn(gameId)
+    let playingPlayer = getPlayerTurnRes.name
 
     // If dialogflow does not understand the response
     if (result.intent.isFallback == true) {
