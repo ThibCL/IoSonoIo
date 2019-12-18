@@ -25,7 +25,7 @@ ALTER SEQUENCE public.gender_gender_id_seq_6 OWNED BY public.Gender.Gender_Id;
 CREATE SEQUENCE public.hair_tone_hair_tone_id_seq_1;
 
 CREATE TABLE public.Hair_Tone (
-                Hair_Tone_Id INTEGER NOT NULL DEFAULT nextval('public.hair_tone_hair_tone_id_seq_1'),
+                Hair_Tone_Id VARCHAR NOT NULL DEFAULT nextval('public.hair_tone_hair_tone_id_seq_1'),
                 Gender_Id INTEGER NOT NULL,
                 Name VARCHAR NOT NULL,
                 Value INTEGER NOT NULL,
@@ -145,7 +145,7 @@ CREATE TABLE public.Avatar (
                 Mouth_Id INTEGER,
                 Eyes_Id INTEGER,
                 Pupil_Tone_Id INTEGER,
-                Hair_Tone_Id INTEGER,
+                Hair_Tone_Id VARCHAR NOT NULL,
                 CONSTRAINT avatar_id PRIMARY KEY (Avatar_Id, Id, Player_Id)
 );
 
@@ -209,8 +209,8 @@ ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
 ALTER TABLE public.Avatar ADD CONSTRAINT hair_tone_avatar_fk
-FOREIGN KEY (Hair_Tone_Id)
-REFERENCES public.Hair_Tone (Hair_Tone_Id)
+FOREIGN KEY (Hair_Tone_Id, Gender_Id)
+REFERENCES public.Hair_Tone (Hair_Tone_Id, Gender_Id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
