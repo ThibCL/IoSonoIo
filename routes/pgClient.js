@@ -151,7 +151,7 @@ class Client {
         throw new BadRequestError("The game has not begun yet")
       }
 
-      return query
+      return query.rows[0]
     } catch (e) {
       logger.error(e.message)
       throw e
