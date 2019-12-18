@@ -136,7 +136,7 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
       question = question.replace(/User/g, playingPlayer)
       let response = result.fulfillmentText
 
-      let getAvatarResp = await client.getAvatarValue(gameId)
+      let getAvatarValueResp = await client.getAvatarValue(gameId)
 
       let av = new Avatar(
         getAvatarValueResp.gender_id,
@@ -151,7 +151,7 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
       res.render(path.join(__dirname, "../public/views", "3.ejs"), {
         id: gameId,
         response: response,
-        playing_player: getPlayerTurnRes.name,
+        playing_player: playingPlayer,
         described_player: getAvatarResp.name,
         question: question,
         avatar: av.url,
