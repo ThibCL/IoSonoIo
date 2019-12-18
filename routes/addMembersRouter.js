@@ -24,7 +24,7 @@ router.post("/game/:gameId/addmembers", jsonParser, async function(
     let membersList = req.body.members
     if (membersList == undefined || membersList.length == 0) {
       logger.error("the list of members is empty", { id: id })
-      throw BadRequestError("The list of members should not be empty")
+      throw new BadRequestError("The list of members should not be empty")
     }
 
     //Verif that there are not two time the same name
@@ -38,7 +38,7 @@ router.post("/game/:gameId/addmembers", jsonParser, async function(
 
     if (verif) {
       logger.error("two players have the same name", { id: id })
-      throw BadRequestError("You can't add two player with the same name")
+      throw new BadRequestError("You can't add two player with the same name")
     }
 
     membersList.forEach(async member => {

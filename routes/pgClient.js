@@ -36,7 +36,7 @@ class Client {
       let query = await client.query("SELECT * FROM game WHERE id = $1", [id])
 
       if (query.rowCount == 0) {
-        throw BadRequestError("This game does not exist")
+        throw new BadRequestError("This game does not exist")
       }
 
       return query.rows[0]
@@ -90,7 +90,7 @@ class Client {
       let query = await client.query("SELECT * FROM player where id = $1", [id])
 
       if (query.rowCount == 0) {
-        throw BadRequestError("No players have been added to the game")
+        throw new BadRequestError("No players have been added to the game")
       }
 
       return query.rows
@@ -148,7 +148,7 @@ class Client {
       )
 
       if (query.rowCount == 0) {
-        throw BadRequestError("The game has not begun yet")
+        throw new BadRequestError("The game has not begun yet")
       }
 
       return query
@@ -172,7 +172,7 @@ class Client {
 
       if (query.rowCount == 0) {
         logger.error("No value correspond to this name in the database")
-        throw BadRequestError(
+        throw new BadRequestError(
           "This name does not exist yet, please reformulate your sentence"
         )
       }

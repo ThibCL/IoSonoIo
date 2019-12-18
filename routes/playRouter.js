@@ -95,7 +95,7 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
 
     let body = req.body
     if (body == undefined || body.text == undefined) {
-      throw BadRequestError("The body of the text is empty")
+      throw new BadRequestError("The body of the text is empty")
     }
 
     let text = body.text
