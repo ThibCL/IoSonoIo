@@ -56,10 +56,10 @@ router.get("/game/:gameId/begin", async function(req, res, next) {
     )
     question = question.replace(/User/g, playingPlayer.name)
 
-    await client.activeQuestion(getQuestionResp.rows[0].question_id, gameId)
+    await client.activeQuestion(getQuestionResp.question_id, gameId)
     logger.info("The question is now active", {
       id: gameId,
-      question: getQuestionResp.rows[0]
+      question: getQuestionResp[0]
     })
 
     res.render(path.join(__dirname, "../public/views", "3.ejs"), {
