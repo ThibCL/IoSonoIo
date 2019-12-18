@@ -6,255 +6,152 @@ var bodyParser = require("body-parser")
 var dgClient = require("./dialogflowClient")
 var logger = require("../logger")
 var Avatar = require("./avatar")
+var BadRequestError = require("../error")
 
 var jsonParser = bodyParser.urlencoded({ extended: true })
 
 /* GET users listing. */
 router.get("/game/:gameId/play", async function(req, res, next) {
-  let client = new Client()
-  await client.connect()
+  try {
+    let client = new Client()
 
-  let gameId = req.params.gameId
-  let getGameResp = await client.getGame(gameId)
-  if (getGameResp.error == true) {
-    await client.disconnect()
-    logger.error(getGameResp.message, { id: gameId })
-    return getGameResp
-  }
+    let getGameResp = await client.getGame(gameId)
+    let gameId = getGameResp.id
 
-  let getAvatarResp = await client.getAvatar(gameId)
+    let getAvatarResp
+    try {
+      getAvatarResp = await client.getAvatar(gameId)
+    } catch (err) {
+      if (err instanceof BadRequestError) {
+        res.redirect("/game/" + gameId + "/begin")
+        return
+      }
 
-  // Check if the game has already begun and if it does not, redirect to the begin endpoint
-  if (getAvatarResp.rowCount == 0) {
-    logger.error("The game has not begun yet", { id: gameId })
-    await client.disconnect()
-    return {
-      error: true,
-      status: 400,
-      message: "The game has not begun yet"
+      throw err
     }
-  }
 
-  let avatar = getAvatarResp.rows[0]
+    let avatar = getAvatarResp[0]
 
-  let getPlayerTurnResp = await client.getPlayerTurn(gameId)
+    let getPlayerTurnResp = await client.getPlayerTurn(gameId)
 
-  //Check if it is the turn of someOne
-  if (getPlayerTurnResp.rowCount < 1) {
-    res.status(500).send("Please replay a new game")
-    await client.disconnect()
-    return
-  }
+    let playingPlayer = getPlayerTurnResp.name
+    logger.info("It is the turn of", { palying_player: playingPlayer })
 
-  let playingPlayer = getPlayerTurnResp.rows[0].name
-  logger.info("It is the turn of", { palying_player: playingPlayer })
+    let getActiveQuestionResp = await client.getActiveQuestion(gameId)
 
-  let getActiveQuestionResp = await client.getActiveQuestion(gameId)
-
-  //Check if there is a activated question
-  if (getActiveQuestionResp.rowCount < 1) {
-    await client.disconnect()
-    res.status(500).send("Please replay a new game")
-  }
-
-  let describedPlayer = avatar.name
-
-  let question = getActiveQuestionResp.rows[0].question.replace(
-    /Described/g,
-    describedPlayer
-  )
-  question = question.replace(/User/g, playingPlayer)
-  logger.info("The question active is", { active_question: question })
-
-  let getAvatarValueResp = await client.getAvatarValue(gameId)
-  if (getAvatarResp.rowCount == 0) {
-    await client.disconnect()
-    res.status(500).send("Please replay a new game")
-  }
-
-  let avValue = getAvatarValueResp.rows[0]
-  console.log(avValue)
-  let av = new Avatar(
-    avValue.gender_id,
-    avValue.eye_value,
-    avValue.hair_value,
-    avValue.mouth_value,
-    avValue.nose_value,
-    avValue.hair_tone_value,
-    avValue.pupil_tone_value
-  )
-  logger.info("The avatar is", { avatar: av })
-
-  await client.disconnect()
-  res.render(path.join(__dirname, "../public/views", "3.ejs"), {
-    id: gameId,
-    response: "",
-    playing_player: playingPlayer,
-    described_player: describedPlayer,
-    question: question,
-    avatar: av.url,
-    end: false
-  })
-})
-
-/* GET users listing. */
-router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
-  let client = new Client()
-  await client.connect()
-
-  let dgC = new dgClient("buddytesting-mqohsv")
-
-  let body = req.body
-  if (body == undefined || body.text == undefined) {
-    res.status(400).send("The request must have a text in the body")
-    await client.disconnect()
-    return
-  }
-
-  let text = body.text
-
-  let gameId = req.params.gameId
-  let getGameResp = await client.getGame(gameId)
-  if (getGameResp.error == true) {
-    logger.error(getGameResp.message, { id: gameId })
-    await client.disconnect()
-    return getGameResp
-  }
-
-  let getAvatarResp = await client.getAvatar(gameId)
-
-  // Check if the game has already begun and if it does not, redirect to the begin endpoint
-  if (getAvatarResp.rowCount == 0) {
-    logger.error("The game has not begun yet", { id: gameId })
-    await client.disconnect()
-    return {
-      error: true,
-      status: 400,
-      message: "The game has not begun yet"
-    }
-  }
-
-  let game = getGameResp.game
-  let avatar = getAvatarResp.rows[0]
-  logger.info("The avatar is", { avatar: avatar })
-
-  let getActiveQuestionResp = await client.getActiveQuestion(gameId)
-  if (getActiveQuestionResp.rowCount < 1) {
-    res.status(500).send("Please replay a new game")
-    await client.disconnect()
-    return
-  }
-
-  let context = getActiveQuestionResp.rows[0].context
-  logger.info("The context of the question is", { context: context })
-  let result = await dgC.runSample(text, context)
-
-  let getPlayerTurnRes = await client.getPlayerTurn(gameId)
-
-  //Check if it is the turn of someOne
-  if (getPlayerTurnRes.rowCount < 1) {
-    await client.disconnect()
-    res.status(500).send("Please replay a new game")
-    return
-  }
-
-  // If dialogflow does not understand the response
-  if (result.intent.isFallback == true) {
-    logger.info("Fallback Intent")
-    let playingPlayer = getPlayerTurnRes.rows[0].name
     let describedPlayer = avatar.name
-    let question = getActiveQuestionResp.rows[0].question
-    question = question.replace(/Described/g, describedPlayer)
-    question = question.replace(/User/g, playingPlayer)
-    let response = result.fulfillmentText
 
-    let getAvatarResp = await client.getAvatarValue(gameId)
-    if (getAvatarResp.rowCount == 0) {
-      await client.disconnect()
-      res.status(500).send("Please replay a new game")
-    }
-
-    let avValue = getAvatarResp.rows[0]
-    console.log(avValue)
-    let av = new Avatar(
-      avValue.gender_id,
-      avValue.eye_value,
-      avValue.hair_value,
-      avValue.mouth_value,
-      avValue.nose_value,
-      avValue.hair_tone_value,
-      avValue.pupil_tone_value
+    let question = getActiveQuestionResp.question.replace(
+      /Described/g,
+      describedPlayer
     )
+    question = question.replace(/User/g, playingPlayer)
+    logger.info("The question active is", { active_question: question })
 
-    await client.disconnect()
+    let getAvatarValueResp = await client.getAvatarValue(gameId)
+
+    let av = new Avatar(
+      getAvatarValueResp.gender_id,
+      getAvatarValueResp.eye_value,
+      getAvatarValueResp.hair_value,
+      getAvatarValueResp.mouth_value,
+      getAvatarValueResp.nose_value,
+      getAvatarValueResp.hair_tone_value,
+      getAvatarValueResp.pupil_tone_value
+    )
+    logger.info("The avatar is", { avatar: av })
+
     res.render(path.join(__dirname, "../public/views", "3.ejs"), {
       id: gameId,
-      response: response,
+      response: "",
       playing_player: playingPlayer,
       described_player: describedPlayer,
       question: question,
       avatar: av.url,
       end: false
     })
-    return
-  }
-
-  var id
-
-  // If the gender has not been set yet
-  if (context == "gender") {
-    let getGenderResp = await client.getGenderId(
-      result.parameters.fields[context].stringValue
-    )
-    if (getGenderResp.rowCount < 1) {
-      await client.disconnect()
-      res.status(500).send("Please replay a new game")
-      return
+  } catch (err) {
+    if (err instanceof BadRequestError) {
+      res
+        .status(400)
+        .render(path.join(__dirname, "../public/views", "error.ejs"), {
+          error: err.message
+        })
     }
 
-    id = getGenderResp.rows[0].gender_id
-  } else {
-    let gender = avatar.gender_id
-    let getValueResp = await client.getValue(
-      gender,
-      context,
-      result.parameters.fields[context].stringValue
-    )
-    console.log(result.parameters.fields[context].stringValue)
-    if (getValueResp.rowCount < 1) {
-      logger.info("Value not in db", {
-        value: result.parameters.fields[context].stringValue
+    res
+      .status(500)
+      .render(path.join(__dirname, "../public/views", "error.ejs"), {
+        error: err.message
       })
-      let playingPlayer = getPlayerTurnRes.rows[0].name
-      let describedPlayer = avatar.name
-      let question = getActiveQuestionResp.rows[0].question
-      question = question.replace(/Described/g, describedPlayer)
-      question = question.replace(/User/g, playingPlayer)
+  }
+})
 
-      let getAvatarResp = await client.getAvatarValue(gameId)
-      if (getAvatarResp.rowCount == 0) {
-        res.status(500).send("Please replay a new game")
+/* Post users listing. */
+router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
+  try {
+    let client = new Client()
+    let dgC = new dgClient("buddytesting-mqohsv")
+
+    let body = req.body
+    if (body == undefined || body.text == undefined) {
+      throw BadRequestError("The body of the text is empty")
+    }
+
+    let text = body.text
+
+    let getGameResp = await client.getGame(gameId)
+    let gameId = getGameResp.id
+
+    let getAvatarResp
+    try {
+      getAvatarResp = await client.getAvatar(gameId)
+    } catch (err) {
+      if (err instanceof BadRequestError) {
+        res.redirect("/game/" + gameId + "/begin")
+        return
       }
 
-      let avValue = getAvatarResp.rows[0]
-      console.log(avValue)
+      throw err
+    }
+    logger.info("The avatar is", { avatar: getAvatarResp })
+
+    let describedPlayer = getAvatarResp.name
+
+    let getActiveQuestionResp = await client.getActiveQuestion(gameId)
+
+    let context = getActiveQuestionResp.context
+    logger.info("The context of the question is", { context: context })
+    let result = await dgC.runSample(text, context)
+
+    let getPlayerTurnRes = await client.getPlayerTurn(gameId)
+
+    // If dialogflow does not understand the response
+    if (result.intent.isFallback == true) {
+      logger.info("Fallback Intent")
+
+      let question = getActiveQuestionResp.question
+      question = question.replace(/Described/g, describedPlayer)
+      question = question.replace(/User/g, playingPlayer)
+      let response = result.fulfillmentText
+
+      let getAvatarResp = await client.getAvatarValue(gameId)
+
       let av = new Avatar(
-        avValue.gender_id,
-        avValue.eye_value,
-        avValue.hair_value,
-        avValue.mouth_value,
-        avValue.nose_value,
-        avValue.hair_tone_value,
-        avValue.pupil_tone_value
+        getAvatarValueResp.gender_id,
+        getAvatarValueResp.eye_value,
+        getAvatarValueResp.hair_value,
+        getAvatarValueResp.mouth_value,
+        getAvatarValueResp.nose_value,
+        getAvatarValueResp.hair_tone_value,
+        getAvatarValueResp.pupil_tone_value
       )
 
-      await client.disconnect()
-      console.log(playingPlayer + ": " + question)
       res.render(path.join(__dirname, "../public/views", "3.ejs"), {
         id: gameId,
-        response: "Sorry we don't know yet what that mean, try something else",
-        playing_player: playingPlayer,
-        described_player: describedPlayer,
+        response: response,
+        playing_player: getPlayerTurnRes.name,
+        described_player: getAvatarResp.name,
         question: question,
         avatar: av.url,
         end: false
@@ -262,139 +159,130 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
       return
     }
 
-    id = getValueResp.rows[0][context + "_id"]
-  }
+    var id
 
-  await client.updateAvatar(gameId, context, id)
+    // If the gender has not been set yet
+    if (context == "gender") {
+      let getGenderResp = await client.getGenderId(
+        result.parameters.fields[context].stringValue
+      )
 
-  await client.playerNextTurn(
-    getPlayerTurnRes.rows[0].turn_played + 1,
-    getPlayerTurnRes.rows[0].player_id
-  )
+      id = getGenderResp.gender_id
+    } else {
+      let gender = getAvatarResp.gender_id
+      let getValueResp = await client.getValue(
+        gender,
+        context,
+        result.parameters.fields[context].stringValue
+      )
 
-  await client.desactiveQuestion(
-    getActiveQuestionResp.rows[0].question_id,
-    gameId
-  )
+      id = getValueResp[context + "_id"]
+    }
 
-  let getAvatarValueResp = await client.getAvatarValue(gameId)
-  if (getAvatarValueResp.rowCount == 0) {
-    await client.disconnect()
-    res.status(500).send("Please replay a new game")
-  }
+    await client.updateAvatar(gameId, context, id)
 
-  let avValue = getAvatarValueResp.rows[0]
-  let av = new Avatar(
-    avValue.gender_id,
-    avValue.eye_value,
-    avValue.hair_value,
-    avValue.mouth_value,
-    avValue.nose_value,
-    avValue.hair_tone_value,
-    avValue.pupil_tone_value
-  )
+    await client.playerNextTurn(
+      getPlayerTurnRes[0].turn_played + 1,
+      getPlayerTurnRes[0].player_id
+    )
 
-  let playingPlayer = getPlayerTurnRes.rows[0].name
-  let describedPlayer = avatar.name
-  let response = result.fulfillmentText
-  response = response.replace(/Described/g, describedPlayer)
-  response = response.replace(/User/g, playingPlayer)
+    await client.desactiveQuestion(getActiveQuestionResp[0].question_id, gameId)
 
-  let getQuestionLeftResp = await client.getQuestionsLeft(gameId)
-  if (getQuestionLeftResp.rowCount == 0) {
-    await client.disconnect()
+    let getAvatarValueResp = await client.getAvatarValue(gameId)
+
+    let av = new Avatar(
+      getAvatarValueResp.gender_id,
+      getAvatarValueResp.eye_value,
+      getAvatarValueResp.hair_value,
+      getAvatarValueResp.mouth_value,
+      getAvatarValueResp.nose_value,
+      getAvatarValueResp.hair_tone_value,
+      getAvatarValueResp.pupil_tone_value
+    )
+
+    let response = result.fulfillmentText
+    response = response.replace(/Described/g, describedPlayer)
+    response = response.replace(/User/g, playingPlayer)
+
+    let getQuestionLeftResp = await client.getQuestionsLeft(gameId)
+    if (getQuestionLeftResp.length == 0) {
+      res.render(path.join(__dirname, "../public/views", "3.ejs"), {
+        id: gameId,
+        response: response,
+        playing_player: "",
+        described_player: "",
+        question: "Well done the game is finish",
+        avatar: av.url,
+        end: true
+      })
+      return
+    }
+
+    let questionId =
+      getQuestionLeftResp[
+        Math.floor(Math.random() * Math.floor(getQuestionLeftResp.length))
+      ].question_id
+
+    await client.activeQuestion(questionId, gameId)
+
+    let getQuestionResp = await client.getQuestion(questionId)
+
+    let getMembersToPlayResp = await client.getMembersToPlay(gameId, game.turn)
+
+    // If everyone has done one turn
+    if (getMembersToPlayResp.length == 0) {
+      await client.nextTurn(game.turn + 1, gameId)
+
+      getMembersToPlayResp = await client.getMembersToPlay(
+        gameId,
+        game.turn + 1
+      )
+
+      // Error improbable
+      if (getMembersToPlayResp.length == 0) {
+        logger.error("It the turn of no one")
+        throw Error("Unexpected Error")
+      }
+    }
+
+    let playing_player =
+      getMembersToPlayResp[
+        Math.floor(Math.random() * Math.floor(getMembersToPlayResp.length))
+      ]
+
+    await client.beginPlayerTurn(playing_player.player_id)
+
+    let question = getQuestionResp.question.replace(
+      /Described/g,
+      describedPlayer
+    )
+    question = question.replace(/User/g, playing_player.name)
+
     res.render(path.join(__dirname, "../public/views", "3.ejs"), {
       id: gameId,
       response: response,
-      playing_player: "",
-      described_player: "",
-      question: "Well done the game is finish",
+      playing_player: playing_player.name,
+      described_player: describedPlayer,
+      question: question,
       avatar: av.url,
-      end: true
+      end: false
     })
     return
-  }
-
-  let questionId =
-    getQuestionLeftResp.rows[
-      Math.floor(Math.random() * Math.floor(getQuestionLeftResp.rowCount))
-    ].question_id
-
-  await client.activeQuestion(questionId, gameId)
-
-  let getQuestionResp = await client.getQuestion(questionId)
-  if (getQuestionResp.rowCount == 0) {
-    await client.disconnect()
-    res.status(500).send("Question does not exist..")
-    return
-  }
-
-  let getMembersToPlayResp = await client.getMembersToPlay(gameId, game.turn)
-
-  // If everyone has done one turn
-  if (getMembersToPlayResp.rowCount == 0) {
-    await client.nextTurn(game.turn + 1, gameId)
-
-    getMembersToPlayResp = await client.getMembersToPlay(gameId, game.turn + 1)
-
-    // Error improbable
-    if (getMembersToPlayResp.rowCount == 0) {
-      await client.disconnect()
-      res.status(500).send("Please replay a new game")
-      return
+  } catch (err) {
+    if (err instanceof BadRequestError) {
+      res
+        .status(400)
+        .render(path.join(__dirname, "../public/views", "error.ejs"), {
+          error: err.message
+        })
     }
+
+    res
+      .status(500)
+      .render(path.join(__dirname, "../public/views", "error.ejs"), {
+        error: err.message
+      })
   }
-
-  let playing_player =
-    getMembersToPlayResp.rows[
-      Math.floor(Math.random() * Math.floor(getMembersToPlayResp.rowCount))
-    ]
-  await client.beginPlayerTurn(playing_player.player_id)
-
-  let question = getQuestionResp.rows[0].question.replace(
-    /Described/g,
-    describedPlayer
-  )
-  question = question.replace(/User/g, playing_player.name)
-
-  await client.disconnect()
-  console.log(playing_player.name + ": " + question)
-  res.render(path.join(__dirname, "../public/views", "3.ejs"), {
-    id: gameId,
-    response: response,
-    playing_player: playing_player.name,
-    described_player: describedPlayer,
-    question: question,
-    avatar: av.url,
-    end: false
-  })
-  return
 })
 
 module.exports = router
-
-async function checkGameHasBegun(client, gameId) {
-  let getGameResp = await client.getGame(gameId)
-  if (getGameResp.error == true) {
-    logger.error(getGameResp.message, { id: gameId })
-    return getGameResp
-  }
-
-  let getAvatarResp = await client.getAvatar(gameId)
-
-  // Check if the game has already begun and if it does not, redirect to the begin endpoint
-  if (getAvatarResp.rowCount == 0) {
-    logger.error("The game has not begun yet", { id: gameId })
-    return {
-      error: true,
-      status: 400,
-      message: "The game has not begun yet"
-    }
-  }
-
-  return {
-    error: false,
-    game: getGameResp.game,
-    avatar: getAvatarResp.rows[0]
-  }
-}
