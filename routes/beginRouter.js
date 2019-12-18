@@ -9,8 +9,8 @@ router.get("/game/:gameId/begin", async function(req, res, next) {
   try {
     let client = new Client()
 
-    let getGameResp = await client.getGame(gameId)
-    let gameId = getGameResp.id
+    let gameId = req.params.gameId
+    await client.getGame(gameId)
 
     try {
       await client.getAvatar(gameId)
