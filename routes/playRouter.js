@@ -30,7 +30,7 @@ router.get("/game/:gameId/play", async function(req, res, next) {
       throw err
     }
 
-    let avatar = getAvatarResp[0]
+    let avatar = getAvatarResp
 
     let getPlayerTurnResp = await client.getPlayerTurn(gameId)
 
@@ -186,7 +186,7 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
       getPlayerTurnRes.player_id
     )
 
-    await client.desactiveQuestion(getActiveQuestionResp[0].question_id, gameId)
+    await client.desactiveQuestion(getActiveQuestionResp.question_id, gameId)
 
     let getAvatarValueResp = await client.getAvatarValue(gameId)
 
