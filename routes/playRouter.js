@@ -30,23 +30,34 @@ router.get("/game/:gameId/play", async function(req, res, next) {
       throw err
     }
 
-    let avatar = getAvatarResp
-
     let getPlayerTurnResp = await client.getPlayerTurn(gameId)
 
     let playingPlayer = getPlayerTurnResp.name
     logger.info("It is the turn of", { palying_player: playingPlayer })
 
+    let describedPlayer = getAvatarResp.name
     let getActiveQuestionResp = await client.getActiveQuestion(gameId)
 
-    let describedPlayer = avatar.name
-
-    let question = getActiveQuestionResp.question.replace(
-      /Described/g,
-      describedPlayer
-    )
-    question = question.replace(/User/g, playingPlayer)
-    logger.info("The question active is", { active_question: question })
+    var question
+    if (getActiveQuestionResp.waiting_confirmation == false) {
+      question = getActiveQuestionResp.question.replace(
+        /Described/g,
+        describedPlayer
+      )
+      question = question.replace(/User/g, playingPlayer)
+      logger.info("The question active is", { active_question: question })
+    } else {
+      let context = getActiveQuestionResp.context
+      let component = await client.getIdiomaticAnswer(
+        context,
+        getAvatarResp[context + "_id"]
+      )
+      question =
+        playingPlayer +
+        ", you said: " +
+        component.idomatic_answer.replace(/Name/g, component.name) +
+        ". Is what you want?"
+    }
 
     let getAvatarValueResp = await client.getAvatarValue(gameId)
 
@@ -119,22 +130,74 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
     let describedPlayer = getAvatarResp.name
 
     let getActiveQuestionResp = await client.getActiveQuestion(gameId)
-
     let context = getActiveQuestionResp.context
     logger.info("The context of the question is", { context: context })
-    let result = await dgC.runSample(text, context)
 
     let getPlayerTurnRes = await client.getPlayerTurn(gameId)
     let playingPlayer = getPlayerTurnRes.name
 
-    // If dialogflow does not understand the response
-    if (result.intent.isFallback == true) {
-      logger.info("Fallback Intent")
+    if (getActiveQuestionResp.waiting_confirmation == false) {
+      let result = await dgC.runSample(text, context)
+      logger.info(result)
 
-      let question = getActiveQuestionResp.question
-      question = question.replace(/Described/g, describedPlayer)
-      question = question.replace(/User/g, playingPlayer)
-      let response = result.fulfillmentText
+      // If dialogflow does not understand the response
+      if (result.intent.isFallback == true) {
+        logger.info("Fallback Intent")
+
+        let question = getActiveQuestionResp.question
+        question = question.replace(/Described/g, describedPlayer)
+        question = question.replace(/User/g, playingPlayer)
+        let response = result.fulfillmentText
+
+        let getAvatarValueResp = await client.getAvatarValue(gameId)
+
+        let av = new Avatar(
+          getAvatarValueResp.gender_id,
+          getAvatarValueResp.eye_value,
+          getAvatarValueResp.hair_value,
+          getAvatarValueResp.mouth_value,
+          getAvatarValueResp.nose_value,
+          getAvatarValueResp.hair_tone_value,
+          getAvatarValueResp.pupil_tone_value
+        )
+
+        res.render(path.join(__dirname, "../public/views", "3.ejs"), {
+          id: gameId,
+          response: response,
+          playing_player: playingPlayer,
+          described_player: getAvatarResp.name,
+          question: question,
+          avatar: av.url,
+          end: false
+        })
+        return
+      }
+
+      var id
+
+      // If the gender has not been set yet
+      if (context == "gender") {
+        let getGenderResp = await client.getGenderId(
+          result.parameters.fields[context].stringValue
+        )
+
+        id = getGenderResp.gender_id
+      } else {
+        let gender = getAvatarResp.gender_id
+        let getValueResp = await client.getValue(
+          gender,
+          context,
+          result.parameters.fields[context].stringValue
+        )
+
+        id = getValueResp[context + "_id"]
+      }
+
+      await client.updateAvatar(gameId, context, id)
+      await client.holdForConfirmation(
+        gameId,
+        getActiveQuestionResp.question_id
+      )
 
       let getAvatarValueResp = await client.getAvatarValue(gameId)
 
@@ -148,130 +211,195 @@ router.post("/game/:gameId/play", jsonParser, async function(req, res, next) {
         getAvatarValueResp.pupil_tone_value
       )
 
+      let response = result.fulfillmentText
+      response = response.replace(/Described/g, describedPlayer)
+      response = response.replace(/User/g, playingPlayer)
+
       res.render(path.join(__dirname, "../public/views", "3.ejs"), {
         id: gameId,
         response: response,
         playing_player: playingPlayer,
         described_player: getAvatarResp.name,
-        question: question,
+        question: "",
         avatar: av.url,
         end: false
       })
       return
-    }
-
-    var id
-
-    // If the gender has not been set yet
-    if (context == "gender") {
-      let getGenderResp = await client.getGenderId(
-        result.parameters.fields[context].stringValue
-      )
-
-      id = getGenderResp.gender_id
     } else {
-      let gender = getAvatarResp.gender_id
-      let getValueResp = await client.getValue(
-        gender,
-        context,
-        result.parameters.fields[context].stringValue
-      )
+      /*let result = await dgC.runSample(text, "confirmation")
 
-      id = getValueResp[context + "_id"]
-    }
+      // If dialogflow does not understand the response
+      if (result.intent.isFallback == true) {
+        logger.info("Fallback Intent")
+        logger.info(result)
 
-    await client.updateAvatar(gameId, context, id)
+        component = await client.getIdiomaticAnswer(
+          context,
+          getAvatarResp[context + "_id"]
+        )*/
+      if (text.includes("yes") || text.includes("Yes")) {
+        await client.playerNextTurn(
+          getPlayerTurnRes.turn_played + 1,
+          getPlayerTurnRes.player_id
+        )
 
-    await client.playerNextTurn(
-      getPlayerTurnRes.turn_played + 1,
-      getPlayerTurnRes.player_id
-    )
+        await client.desactiveQuestion(
+          getActiveQuestionResp.question_id,
+          gameId
+        )
 
-    await client.desactiveQuestion(getActiveQuestionResp.question_id, gameId)
+        let getAvatarValueResp = await client.getAvatarValue(gameId)
 
-    let getAvatarValueResp = await client.getAvatarValue(gameId)
+        let av = new Avatar(
+          getAvatarValueResp.gender_id,
+          getAvatarValueResp.eye_value,
+          getAvatarValueResp.hair_value,
+          getAvatarValueResp.mouth_value,
+          getAvatarValueResp.nose_value,
+          getAvatarValueResp.hair_tone_value,
+          getAvatarValueResp.pupil_tone_value
+        )
 
-    let av = new Avatar(
-      getAvatarValueResp.gender_id,
-      getAvatarValueResp.eye_value,
-      getAvatarValueResp.hair_value,
-      getAvatarValueResp.mouth_value,
-      getAvatarValueResp.nose_value,
-      getAvatarValueResp.hair_tone_value,
-      getAvatarValueResp.pupil_tone_value
-    )
+        let getQuestionLeftResp = await client.getQuestionsLeft(
+          gameId,
+          getAvatarValueResp.gender_id
+        )
+        if (getQuestionLeftResp.length == 0) {
+          res.render(path.join(__dirname, "../public/views", "3.ejs"), {
+            id: gameId,
+            response: "cool",
+            playing_player: "",
+            described_player: "",
+            question: "Well done the game is finish",
+            avatar: av.url,
+            end: true
+          })
+          return
+        }
 
-    let response = result.fulfillmentText
-    response = response.replace(/Described/g, describedPlayer)
-    response = response.replace(/User/g, playingPlayer)
+        let questionId =
+          getQuestionLeftResp[
+            Math.floor(Math.random() * Math.floor(getQuestionLeftResp.length))
+          ].question_id
 
-    let getQuestionLeftResp = await client.getQuestionsLeft(gameId)
-    if (getQuestionLeftResp.length == 0) {
-      res.render(path.join(__dirname, "../public/views", "3.ejs"), {
-        id: gameId,
-        response: response,
-        playing_player: "",
-        described_player: "",
-        question: "Well done the game is finish",
-        avatar: av.url,
-        end: true
-      })
-      return
-    }
+        await client.activeQuestion(questionId, gameId)
 
-    let questionId =
-      getQuestionLeftResp[
-        Math.floor(Math.random() * Math.floor(getQuestionLeftResp.length))
-      ].question_id
+        let getQuestionResp = await client.getQuestion(questionId)
 
-    await client.activeQuestion(questionId, gameId)
+        let getMembersToPlayResp = await client.getMembersToPlay(
+          gameId,
+          getGameResp.turn
+        )
 
-    let getQuestionResp = await client.getQuestion(questionId)
+        // If everyone has done one turn
+        if (getMembersToPlayResp.length == 0) {
+          await client.nextTurn(getGameResp.turn + 1, gameId)
 
-    let getMembersToPlayResp = await client.getMembersToPlay(
-      gameId,
-      getGameResp.turn
-    )
+          getMembersToPlayResp = await client.getMembersToPlay(
+            gameId,
+            getGameResp.turn + 1
+          )
 
-    // If everyone has done one turn
-    if (getMembersToPlayResp.length == 0) {
-      await client.nextTurn(getGameResp.turn + 1, gameId)
+          // Error improbable
+          if (getMembersToPlayResp.length == 0) {
+            logger.error("It the turn of no one")
+            throw Error("Unexpected Error")
+          }
+        }
 
-      getMembersToPlayResp = await client.getMembersToPlay(
-        gameId,
-        getGameResp.turn + 1
-      )
+        let playing_player =
+          getMembersToPlayResp[
+            Math.floor(Math.random() * Math.floor(getMembersToPlayResp.length))
+          ]
 
-      // Error improbable
-      if (getMembersToPlayResp.length == 0) {
-        logger.error("It the turn of no one")
-        throw Error("Unexpected Error")
+        await client.beginPlayerTurn(playing_player.player_id)
+
+        let question = getQuestionResp.question.replace(
+          /Described/g,
+          describedPlayer
+        )
+        question = question.replace(/User/g, playing_player.name)
+
+        res.render(path.join(__dirname, "../public/views", "3.ejs"), {
+          id: gameId,
+          response: "Ok cool",
+          playing_player: playing_player.name,
+          described_player: describedPlayer,
+          question: question,
+          avatar: av.url,
+          end: false
+        })
+        return
+      } else if (text.includes("no") || text.includes("No")) {
+        await client.desupdateAvatar(gameId, context)
+        await client.unholdForConfirmation(
+          gameId,
+          getActiveQuestionResp.question_id
+        )
+
+        let question = getActiveQuestionResp.question
+        question = question.replace(/Described/g, describedPlayer)
+        question = question.replace(/User/g, playingPlayer)
+
+        let getAvatarValueResp = await client.getAvatarValue(gameId)
+
+        let av = new Avatar(
+          getAvatarValueResp.gender_id,
+          getAvatarValueResp.eye_value,
+          getAvatarValueResp.hair_value,
+          getAvatarValueResp.mouth_value,
+          getAvatarValueResp.nose_value,
+          getAvatarValueResp.hair_tone_value,
+          getAvatarValueResp.pupil_tone_value
+        )
+
+        res.render(path.join(__dirname, "../public/views", "3.ejs"), {
+          id: gameId,
+          response: "Ok, the update has been cancel.",
+          playing_player: playingPlayer,
+          described_player: getAvatarResp.name,
+          question: question,
+          avatar: av.url,
+          end: false
+        })
+        return
+      } else {
+        let component = client.getIdiomaticAnswer(
+          context,
+          getAvatarResp[component + "_id"]
+        )
+
+        let question =
+          playingPlayer +
+          ", you said: " +
+          component.idomatic_answer.replace(/Name/g, component.name) +
+          ". Is what you want?"
+        let response = "Please answer by yes or no"
+
+        let getAvatarValueResp = await client.getAvatarValue(gameId)
+
+        let av = new Avatar(
+          getAvatarValueResp.gender_id,
+          getAvatarValueResp.eye_value,
+          getAvatarValueResp.hair_value,
+          getAvatarValueResp.mouth_value,
+          getAvatarValueResp.nose_value,
+          getAvatarValueResp.hair_tone_value,
+          getAvatarValueResp.pupil_tone_value
+        )
+
+        res.render(path.join(__dirname, "../public/views", "3.ejs"), {
+          id: gameId,
+          response: response,
+          playing_player: playingPlayer,
+          described_player: getAvatarResp.name,
+          question: question,
+          avatar: av.url,
+          end: false
+        })
+        return
       }
     }
-
-    let playing_player =
-      getMembersToPlayResp[
-        Math.floor(Math.random() * Math.floor(getMembersToPlayResp.length))
-      ]
-
-    await client.beginPlayerTurn(playing_player.player_id)
-
-    let question = getQuestionResp.question.replace(
-      /Described/g,
-      describedPlayer
-    )
-    question = question.replace(/User/g, playing_player.name)
-
-    res.render(path.join(__dirname, "../public/views", "3.ejs"), {
-      id: gameId,
-      response: response,
-      playing_player: playing_player.name,
-      described_player: describedPlayer,
-      question: question,
-      avatar: av.url,
-      end: false
-    })
-    return
   } catch (err) {
     if (err instanceof BadRequestError) {
       res
