@@ -4,12 +4,10 @@ var BadRequestError = require("../error")
 
 class Client {
   constructor() {}
-  //process.env.DATABASE_URL, true
+  //"postgres://postgres:gameboy@localhost:5432/iosonoio"
 
   async newGame() {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -31,9 +29,7 @@ class Client {
   }
 
   async getGame(id) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -53,9 +49,7 @@ class Client {
   }
 
   async endGame(id) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -72,9 +66,7 @@ class Client {
   }
 
   async addMember(id, name, turn) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -91,9 +83,7 @@ class Client {
   }
 
   async getMembers(id) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -113,9 +103,7 @@ class Client {
   }
 
   async getMembersToPlay(gameId, turn) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -133,9 +121,7 @@ class Client {
   }
 
   async createAvatar(gameId, playerId) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -152,9 +138,7 @@ class Client {
   }
 
   async getAvatar(gameId) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -177,9 +161,7 @@ class Client {
   }
 
   async getValue(gender, table, name) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -207,9 +189,7 @@ class Client {
   }
 
   async getIdiomaticAnswer(context, componentId) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -233,9 +213,7 @@ class Client {
   }
 
   async getGenderId(name) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -258,9 +236,7 @@ class Client {
   }
 
   async updateAvatar(gameId, table, id) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -277,9 +253,7 @@ class Client {
   }
 
   async desupdateAvatar(gameId, context) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -296,9 +270,7 @@ class Client {
   }
 
   async getPlayerTurn(gameId) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -321,9 +293,7 @@ class Client {
   }
 
   async playerNextTurn(turn, playerId) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -340,9 +310,7 @@ class Client {
   }
 
   async nextTurn(turn, gameId) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -356,9 +324,7 @@ class Client {
   }
 
   async beginPlayerTurn(playerId) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -375,9 +341,7 @@ class Client {
   }
 
   async getActiveQuestion(gameId) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -401,9 +365,7 @@ class Client {
   }
 
   async holdForConfirmation(gameId, questionId) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -420,9 +382,7 @@ class Client {
   }
 
   async unholdForConfirmation(gameId, questionId) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -439,9 +399,7 @@ class Client {
   }
 
   async activeQuestion(questionId, gameId) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -458,9 +416,7 @@ class Client {
   }
 
   async desactiveQuestion(questionId, gameId) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -477,9 +433,7 @@ class Client {
   }
 
   async getQuestionId(context) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -503,9 +457,7 @@ class Client {
   }
 
   async getQuestion(questionId) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -529,9 +481,7 @@ class Client {
   }
 
   async getQuestionsLeft(gameId, gender) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
@@ -549,9 +499,7 @@ class Client {
   }
 
   async getAvatarValue(gameId) {
-    let client = new pg.Client(
-      "postgres://postgres:gameboy@localhost:5432/iosonoio"
-    )
+    let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
