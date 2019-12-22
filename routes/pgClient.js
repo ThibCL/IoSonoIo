@@ -188,6 +188,30 @@ class Client {
     }
   }
 
+  async getIdiomaticAnswer(context, componentId) {
+    let client = new pg.Client(process.env.DATABASE_URL, true)
+    await client.connect()
+
+    try {
+      let query = await client.query(
+        "SELECT * FROM " + context + " WHERE " + context + "_id=$1",
+        [componentId]
+      )
+
+      if (query.rowCount == 0) {
+        logger.error("No value correspond to this value of component")
+        throw Error("Unexpected Error")
+      }
+
+      return query.rows[0]
+    } catch (e) {
+      logger.error(e.message)
+      throw e
+    } finally {
+      client.end()
+    }
+  }
+
   async getGenderId(name) {
     let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
@@ -219,6 +243,23 @@ class Client {
       await client.query(
         "UPDATE avatar set " + table + "_id=$1 WHERE avatar.id=$2",
         [id, gameId]
+      )
+    } catch (e) {
+      logger.error(e.message)
+      throw e
+    } finally {
+      client.end()
+    }
+  }
+
+  async desupdateAvatar(gameId, context) {
+    let client = new pg.Client(process.env.DATABASE_URL, true)
+    await client.connect()
+
+    try {
+      await client.query(
+        "UPDATE avatar set " + context + "_id=NULL WHERE avatar.id=$1",
+        [gameId]
       )
     } catch (e) {
       logger.error(e.message)
@@ -305,7 +346,7 @@ class Client {
 
     try {
       let query = await client.query(
-        "SELECT * FROM question_asked JOIN question ON question_asked.question_id=question.question_id WHERE id=$1 AND waiting=true",
+        "SELECT * FROM question_asked JOIN question ON question_asked.question_id=question.question_id WHERE id=$1 AND active=true",
         [gameId]
       )
 
@@ -323,13 +364,47 @@ class Client {
     }
   }
 
+  async holdForConfirmation(gameId, questionId) {
+    let client = new pg.Client(process.env.DATABASE_URL, true)
+    await client.connect()
+
+    try {
+      await client.query(
+        "UPDATE question_asked SET waiting_confirmation = true WHERE id=$1 AND question_id=$2",
+        [gameId, questionId]
+      )
+    } catch (e) {
+      logger.error(e.message)
+      throw e
+    } finally {
+      client.end()
+    }
+  }
+
+  async unholdForConfirmation(gameId, questionId) {
+    let client = new pg.Client(process.env.DATABASE_URL, true)
+    await client.connect()
+
+    try {
+      await client.query(
+        "UPDATE question_asked SET waiting_confirmation = false WHERE id=$1 AND question_id=$2",
+        [gameId, questionId]
+      )
+    } catch (e) {
+      logger.error(e.message)
+      throw e
+    } finally {
+      client.end()
+    }
+  }
+
   async activeQuestion(questionId, gameId) {
     let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
       await client.query(
-        "INSERT INTO question_asked (question_id, id, waiting) VALUES ($1, $2, true)",
+        "INSERT INTO question_asked (question_id, id, active, waiting_confirmation) VALUES ($1, $2, true, false)",
         [questionId, gameId]
       )
     } catch (e) {
@@ -346,7 +421,7 @@ class Client {
 
     try {
       await client.query(
-        "UPDATE question_asked SET waiting=false WHERE question_id=$1 and id=$2",
+        "UPDATE question_asked SET active=false WHERE question_id=$1 and id=$2",
         [questionId, gameId]
       )
     } catch (e) {
@@ -405,14 +480,14 @@ class Client {
     }
   }
 
-  async getQuestionsLeft(gameId) {
+  async getQuestionsLeft(gameId, gender) {
     let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
       let query = await client.query(
-        "SELECT question_id FROM question EXCEPT SELECT question_id FROM question_asked WHERE id=$1",
-        [gameId]
+        "SELECT question_id FROM question WHERE gender_id=$1 EXCEPT SELECT question_id FROM question_asked WHERE id=$2",
+        [gender, gameId]
       )
       return query.rows
     } catch (e) {
