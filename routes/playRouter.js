@@ -328,15 +328,7 @@ async function handleYesConfirmation(
     getAvatarValueResp.gender_id
   )
   if (getQuestionLeftResp.length == 0) {
-    res.render(path.join(__dirname, "../public/views", "3.ejs"), {
-      id: gameId,
-      response: "cool",
-      playing_player: "",
-      described_player: "",
-      question: "Well done the game is finish",
-      avatar: av.url,
-      end: true
-    })
+    res.redirect("/game/" + gameId + "/endgame")
     return
   }
 
