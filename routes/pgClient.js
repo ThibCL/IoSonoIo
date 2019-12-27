@@ -4,10 +4,12 @@ var BadRequestError = require("../error")
 
 class Client {
   constructor() {}
-  //"postgres://postgres:gameboy@localhost:5432/iosonoio"
+  //process.env.DATABASE_URL, true
 
   async newGame() {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -29,7 +31,9 @@ class Client {
   }
 
   async getGame(id) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -49,7 +53,9 @@ class Client {
   }
 
   async endGame(id) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -66,7 +72,9 @@ class Client {
   }
 
   async addMember(id, name, turn) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -83,7 +91,9 @@ class Client {
   }
 
   async getMembers(id) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -103,7 +113,9 @@ class Client {
   }
 
   async getMembersToPlay(gameId, turn) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -121,7 +133,9 @@ class Client {
   }
 
   async createAvatar(gameId, playerId) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -138,7 +152,9 @@ class Client {
   }
 
   async getAvatar(gameId) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -161,7 +177,9 @@ class Client {
   }
 
   async getValue(gender, table, name) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -189,7 +207,9 @@ class Client {
   }
 
   async getIdiomaticAnswer(context, componentId) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -213,7 +233,9 @@ class Client {
   }
 
   async getGenderId(name) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -236,7 +258,9 @@ class Client {
   }
 
   async updateAvatar(gameId, table, id) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -253,7 +277,9 @@ class Client {
   }
 
   async desupdateAvatar(gameId, context) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -270,7 +296,9 @@ class Client {
   }
 
   async getPlayerTurn(gameId) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -293,7 +321,9 @@ class Client {
   }
 
   async playerNextTurn(turn, playerId) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -310,7 +340,9 @@ class Client {
   }
 
   async nextTurn(turn, gameId) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -324,7 +356,9 @@ class Client {
   }
 
   async beginPlayerTurn(playerId) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -341,7 +375,9 @@ class Client {
   }
 
   async getActiveQuestion(gameId) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -365,7 +401,9 @@ class Client {
   }
 
   async holdForConfirmation(gameId, questionId) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -382,7 +420,9 @@ class Client {
   }
 
   async unholdForConfirmation(gameId, questionId) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -399,7 +439,9 @@ class Client {
   }
 
   async activeQuestion(questionId, gameId) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -416,7 +458,9 @@ class Client {
   }
 
   async desactiveQuestion(questionId, gameId) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -433,7 +477,9 @@ class Client {
   }
 
   async getQuestionId(context) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -457,7 +503,9 @@ class Client {
   }
 
   async getQuestion(questionId) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -481,7 +529,9 @@ class Client {
   }
 
   async getQuestionsLeft(gameId, gender) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
@@ -499,12 +549,60 @@ class Client {
   }
 
   async getAvatarValue(gameId) {
-    let client = new pg.Client(process.env.DATABASE_URL, true)
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
     await client.connect()
 
     try {
       let query = await client.query(
-        "SELECT avatar_id,eye.value AS eye_value, hair.value AS hair_value, nose.value AS nose_value, hair_tone.value AS hair_tone_value, mouth.value AS mouth_value, pupil_tone.value AS pupil_tone_value, avatar.gender_id FROM avatar LEFT JOIN hair ON avatar.hair_id=hair.hair_id LEFT JOIN nose ON avatar.nose_id=nose.nose_id LEFT JOIN hair_tone ON avatar.hair_tone_id=hair_tone.hair_tone_id LEFT JOIN mouth ON avatar.mouth_id=mouth.mouth_id LEFT JOIN pupil_tone ON avatar.pupil_tone_id=pupil_tone.pupil_tone_id LEFT JOIN eye ON avatar.eye_id=eye.eye_id WHERE avatar.id=$1 ",
+        "SELECT avatar_id,eye.value AS eye_value, hair.value AS hair_value, nose.value AS nose_value, hair_tone.value AS hair_tone_value, mouth.value AS mouth_value, pupil_tone.value AS pupil_tone_value, avatar.gender_id " +
+          "FROM avatar " +
+          "LEFT JOIN hair ON avatar.hair_id=hair.hair_id AND avatar.gender_id=hair.hair_id " +
+          "LEFT JOIN nose ON avatar.nose_id=nose.nose_id AND avatar.gender_id=nose.gender_id " +
+          "LEFT JOIN hair_tone ON avatar.hair_tone_id=hair_tone.hair_tone_id AND avatar.gender_id=hair_tone.gender_id " +
+          "LEFT JOIN mouth ON avatar.mouth_id=mouth.mouth_id AND avatar.gender_id=mouth.gender_id " +
+          "LEFT JOIN pupil_tone ON avatar.pupil_tone_id=pupil_tone.pupil_tone_id AND avatar.gender_id=pupil_tone.gender_id " +
+          "LEFT JOIN eye ON avatar.eye_id=eye.eye_id " +
+          "WHERE avatar.id=$1 ",
+        [gameId]
+      )
+
+      if (query.rowCount == 0) {
+        logger.error("There is no avatar associated with the game")
+        throw Error("Unexpected error, please retry")
+      }
+
+      return query.rows[0]
+    } catch (e) {
+      logger.error(e.message)
+      throw e
+    } finally {
+      client.end()
+    }
+  }
+
+  async getHistory(gameId) {
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
+    await client.connect()
+
+    try {
+      let query = await client.query(
+        "SELECT avatar_id, avatar.gender_id, " +
+          "gender.gender_id AS gender_value, eye.value AS eye_value, hair.value AS hair_value, nose.value AS nose_value, hair_tone.value AS hair_tone_value, mouth.value AS mouth_value, pupil_tone.value AS pupil_tone_value, " +
+          "eye.name AS eye_name, hair.name AS hair_name, nose.name AS nose_name, hair_tone.name AS hair_tone_name, mouth.name AS mouth_name, pupil_tone.name AS pupil_tone_name, " +
+          "gender.idiomatic_answer AS gender_idiomatic_answer, eye.idiomatic_answer AS eye_idiomatic_answer, hair.idiomatic_answer AS hair_idiomatic_answer, nose.idiomatic_answer AS nose_idiomatic_answer, hair_tone.idiomatic_answer AS hair_tone_idiomatic_answer, mouth.idiomatic_answer AS mouth_idiomatic_answer, pupil_tone.idiomatic_answer AS pupil_tone_idiomatic_answer " +
+          "FROM avatar " +
+          "LEFT JOIN gender ON avatar.gender_id=gender.gender_id " +
+          "LEFT JOIN hair ON avatar.hair_id=hair.hair_id AND avatar.gender_id=hair.gender_id " +
+          "LEFT JOIN nose ON avatar.nose_id=nose.nose_id AND avatar.gender_id=nose.gender_id " +
+          "LEFT JOIN hair_tone ON avatar.hair_tone_id=hair_tone.hair_tone_id AND avatar.gender_id=hair_tone.gender_id " +
+          "LEFT JOIN mouth ON avatar.mouth_id=mouth.mouth_id AND avatar.gender_id=mouth.gender_id " +
+          "LEFT JOIN pupil_tone ON avatar.pupil_tone_id=pupil_tone.pupil_tone_id AND avatar.gender_id=pupil_tone.gender_id " +
+          "LEFT JOIN eye ON avatar.eye_id=eye.eye_id " +
+          "WHERE avatar.id=$1 ",
         [gameId]
       )
 

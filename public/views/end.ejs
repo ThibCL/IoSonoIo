@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/style/end.css" />
+    <script src="https://kit.fontawesome.com/8832483f9d.js" crossorigin="anonymous"></script>
+    <script src="/js/end.js"></script>
+
+</head>
+
+
+
+<body>
+
+    <div class="block screen">
+        <!-- logo -->
+        <div id="logo-container">
+            <div id="logo">io sono io</div>
+        </div>
+        <div id="avatar-container">
+            <!-- get avatar information from the server -->
+            <img id="avimg" src="<%=history.pupil_tone.general.url%>">
+        </div>
+    </div>
+    <div class="block history">
+        <div class="title-container">
+            <p class="title">History</p>
+        </div>
+
+        <div id="lines">
+        </div>
+
+        <div class="end_form">
+            <form class="end_form" method="POST" action="/game/<%=id%>/endgame">
+                <input type="submit" value="end">
+            </form>
+        </div>
+
+    </div>
+
+
+
+
+
+    </div>
+    </div>
+    <script type="text/javascript">
+        var history = startHistory('<%- JSON.stringify(history) %>')
+    </script>
+</body>
+
+</html>
