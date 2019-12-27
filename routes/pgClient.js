@@ -4,7 +4,7 @@ var BadRequestError = require("../error")
 
 class Client {
   constructor() {}
-  //"postgres://postgres:gameboy@localhost:5432/iosonoio"
+  //process.env.DATABASE_URL, true
 
   async newGame() {
     let client = new pg.Client(process.env.DATABASE_URL, true)
@@ -188,6 +188,30 @@ class Client {
     }
   }
 
+  async getIdiomaticAnswer(context, componentId) {
+    let client = new pg.Client(process.env.DATABASE_URL, true)
+    await client.connect()
+
+    try {
+      let query = await client.query(
+        "SELECT * FROM " + context + " WHERE " + context + "_id=$1",
+        [componentId]
+      )
+
+      if (query.rowCount == 0) {
+        logger.error("No value correspond to this value of component")
+        throw Error("Unexpected Error")
+      }
+
+      return query.rows[0]
+    } catch (e) {
+      logger.error(e.message)
+      throw e
+    } finally {
+      client.end()
+    }
+  }
+
   async getGenderId(name) {
     let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
@@ -219,6 +243,23 @@ class Client {
       await client.query(
         "UPDATE avatar set " + table + "_id=$1 WHERE avatar.id=$2",
         [id, gameId]
+      )
+    } catch (e) {
+      logger.error(e.message)
+      throw e
+    } finally {
+      client.end()
+    }
+  }
+
+  async desupdateAvatar(gameId, context) {
+    let client = new pg.Client(process.env.DATABASE_URL, true)
+    await client.connect()
+
+    try {
+      await client.query(
+        "UPDATE avatar set " + context + "_id=NULL WHERE avatar.id=$1",
+        [gameId]
       )
     } catch (e) {
       logger.error(e.message)
@@ -305,7 +346,7 @@ class Client {
 
     try {
       let query = await client.query(
-        "SELECT * FROM question_asked JOIN question ON question_asked.question_id=question.question_id WHERE id=$1 AND waiting=true",
+        "SELECT * FROM question_asked JOIN question ON question_asked.question_id=question.question_id WHERE id=$1 AND active=true",
         [gameId]
       )
 
@@ -323,13 +364,47 @@ class Client {
     }
   }
 
+  async holdForConfirmation(gameId, questionId) {
+    let client = new pg.Client(process.env.DATABASE_URL, true)
+    await client.connect()
+
+    try {
+      await client.query(
+        "UPDATE question_asked SET waiting_confirmation = true WHERE id=$1 AND question_id=$2",
+        [gameId, questionId]
+      )
+    } catch (e) {
+      logger.error(e.message)
+      throw e
+    } finally {
+      client.end()
+    }
+  }
+
+  async unholdForConfirmation(gameId, questionId) {
+    let client = new pg.Client(process.env.DATABASE_URL, true)
+    await client.connect()
+
+    try {
+      await client.query(
+        "UPDATE question_asked SET waiting_confirmation = false WHERE id=$1 AND question_id=$2",
+        [gameId, questionId]
+      )
+    } catch (e) {
+      logger.error(e.message)
+      throw e
+    } finally {
+      client.end()
+    }
+  }
+
   async activeQuestion(questionId, gameId) {
     let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
       await client.query(
-        "INSERT INTO question_asked (question_id, id, waiting) VALUES ($1, $2, true)",
+        "INSERT INTO question_asked (question_id, id, active, waiting_confirmation) VALUES ($1, $2, true, false)",
         [questionId, gameId]
       )
     } catch (e) {
@@ -346,7 +421,7 @@ class Client {
 
     try {
       await client.query(
-        "UPDATE question_asked SET waiting=false WHERE question_id=$1 and id=$2",
+        "UPDATE question_asked SET active=false WHERE question_id=$1 and id=$2",
         [questionId, gameId]
       )
     } catch (e) {
@@ -405,14 +480,14 @@ class Client {
     }
   }
 
-  async getQuestionsLeft(gameId) {
+  async getQuestionsLeft(gameId, gender) {
     let client = new pg.Client(process.env.DATABASE_URL, true)
     await client.connect()
 
     try {
       let query = await client.query(
-        "SELECT question_id FROM question EXCEPT SELECT question_id FROM question_asked WHERE id=$1",
-        [gameId]
+        "SELECT question_id FROM question WHERE gender_id=$1 EXCEPT SELECT question_id FROM question_asked WHERE id=$2",
+        [gender, gameId]
       )
       return query.rows
     } catch (e) {
@@ -429,7 +504,15 @@ class Client {
 
     try {
       let query = await client.query(
-        "SELECT avatar_id,eye.value AS eye_value, hair.value AS hair_value, nose.value AS nose_value, hair_tone.value AS hair_tone_value, mouth.value AS mouth_value, pupil_tone.value AS pupil_tone_value, avatar.gender_id FROM avatar LEFT JOIN hair ON avatar.hair_id=hair.hair_id LEFT JOIN nose ON avatar.nose_id=nose.nose_id LEFT JOIN hair_tone ON avatar.hair_tone_id=hair_tone.hair_tone_id LEFT JOIN mouth ON avatar.mouth_id=mouth.mouth_id LEFT JOIN pupil_tone ON avatar.pupil_tone_id=pupil_tone.pupil_tone_id LEFT JOIN eye ON avatar.eye_id=eye.eye_id WHERE avatar.id=$1 ",
+        "SELECT avatar_id,eye.value AS eye_value, hair.value AS hair_value, nose.value AS nose_value, hair_tone.value AS hair_tone_value, mouth.value AS mouth_value, pupil_tone.value AS pupil_tone_value, avatar.gender_id " +
+          "FROM avatar " +
+          "LEFT JOIN hair ON avatar.hair_id=hair.hair_id AND avatar.gender_id=hair.gender_id " +
+          "LEFT JOIN nose ON avatar.nose_id=nose.nose_id AND avatar.gender_id=nose.gender_id " +
+          "LEFT JOIN hair_tone ON avatar.hair_tone_id=hair_tone.hair_tone_id AND avatar.gender_id=hair_tone.gender_id " +
+          "LEFT JOIN mouth ON avatar.mouth_id=mouth.mouth_id AND avatar.gender_id=mouth.gender_id " +
+          "LEFT JOIN pupil_tone ON avatar.pupil_tone_id=pupil_tone.pupil_tone_id AND avatar.gender_id=pupil_tone.gender_id " +
+          "LEFT JOIN eye ON avatar.eye_id=eye.eye_id " +
+          "WHERE avatar.id=$1 ",
         [gameId]
       )
 
@@ -439,6 +522,66 @@ class Client {
       }
 
       return query.rows[0]
+    } catch (e) {
+      logger.error(e.message)
+      throw e
+    } finally {
+      client.end()
+    }
+  }
+
+  async getHistory(gameId) {
+    let client = new pg.Client(process.env.DATABASE_URL, true)
+    await client.connect()
+
+    try {
+      let query = await client.query(
+        "SELECT avatar_id, avatar.gender_id, " +
+          "gender.gender_id AS gender_value, eye.value AS eye_value, hair.value AS hair_value, nose.value AS nose_value, hair_tone.value AS hair_tone_value, mouth.value AS mouth_value, pupil_tone.value AS pupil_tone_value, " +
+          "eye.name AS eye_name, hair.name AS hair_name, nose.name AS nose_name, hair_tone.name AS hair_tone_name, mouth.name AS mouth_name, pupil_tone.name AS pupil_tone_name, " +
+          "gender.idiomatic_answer AS gender_idiomatic_answer, eye.idiomatic_answer AS eye_idiomatic_answer, hair.idiomatic_answer AS hair_idiomatic_answer, nose.idiomatic_answer AS nose_idiomatic_answer, hair_tone.idiomatic_answer AS hair_tone_idiomatic_answer, mouth.idiomatic_answer AS mouth_idiomatic_answer, pupil_tone.idiomatic_answer AS pupil_tone_idiomatic_answer " +
+          "FROM avatar " +
+          "LEFT JOIN gender ON avatar.gender_id=gender.gender_id " +
+          "LEFT JOIN hair ON avatar.hair_id=hair.hair_id AND avatar.gender_id=hair.gender_id " +
+          "LEFT JOIN nose ON avatar.nose_id=nose.nose_id AND avatar.gender_id=nose.gender_id " +
+          "LEFT JOIN hair_tone ON avatar.hair_tone_id=hair_tone.hair_tone_id AND avatar.gender_id=hair_tone.gender_id " +
+          "LEFT JOIN mouth ON avatar.mouth_id=mouth.mouth_id AND avatar.gender_id=mouth.gender_id " +
+          "LEFT JOIN pupil_tone ON avatar.pupil_tone_id=pupil_tone.pupil_tone_id AND avatar.gender_id=pupil_tone.gender_id " +
+          "LEFT JOIN eye ON avatar.eye_id=eye.eye_id " +
+          "WHERE avatar.id=$1 ",
+        [gameId]
+      )
+
+      if (query.rowCount == 0) {
+        logger.error("There is no avatar associated with the game")
+        throw Error("Unexpected error, please retry")
+      }
+
+      return query.rows[0]
+    } catch (e) {
+      logger.error(e.message)
+      throw e
+    } finally {
+      client.end()
+    }
+  }
+
+  async getHints(context, gender) {
+    let client = new pg.Client(process.env.DATABASE_URL, true)
+    await client.connect()
+
+    try {
+      let query = await client.query(
+        "SELECT * FROM " + context + " WHERE gender_id=$1",
+        [gender]
+      )
+
+      if (query.rowCount == 0) {
+        logger.error("There is no hint available")
+        throw Error("Unexpected error, please retry")
+      }
+
+      return query.rows
     } catch (e) {
       logger.error(e.message)
       throw e
