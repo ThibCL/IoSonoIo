@@ -1,62 +1,70 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="/style/3.css" />
-    <link rel="stylesheet" type="text/css" href="/style/mic.css" />
-    <script src="https://kit.fontawesome.com/8832483f9d.js" crossorigin="anonymous"></script>
-  </head>
-  <body>
-    <div class="block screen">
-      <!-- logo -->
-      <div id="logo-container">
-        <div id="logo">io sono io</div>
-        <div id="hint"><img src="/style/hint-grey.png" alt="hint"/></div>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="/style/3.css" />
+  <link rel="stylesheet" type="text/css" href="/style/mic.css" />
+  <script src="https://kit.fontawesome.com/8832483f9d.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <div class="block screen">
+    <!-- logo -->
+    <div id="logo-container">
+      <div id="logo">io sono io</div>
+      <form method="GET" action="/game/<%=id%>/hint">
+        <input type="image" src="/style/hint-grey.png" alt="hint">
+      </form>
+
+    </div>
+    <div id="avatar-container">
+      <!-- get avatar information from the server -->
+      <img src="<%=avatar%>">
+      <div>
+        <% if (end==true) { %>
+        <form method="GET" action="/game/<%=id%>/endgame">
+          <input id="end" type="submit" value="end">
+        </form>
+        <% } %>
       </div>
-      <div id="avatar-container">
-        <!-- get avatar information from the server -->
-        <img src="<%=avatar%>">
-        <div>
-          <% if (end==true) { %>
-          <form method="GET" action="/game/<%=id%>/endgame">
-            <input id="end" type="submit" value="end">
-          </form>
+    </div>
+  </div>
+  <div class="block chatbox">
+    <!-- microphone -->
+    <% if (end==false) { %>
+    <div id="mic-container">
+      <button id="slash-mic" type="button"><i class="fas fa-microphone-slash"></i></button>
+    </div>
+    <% } %>
+    <div id="chatbox-container" style="padding: 80px 40px;">
+      <!-- agent's chat : #agent-chatbox.innerHTML will deleted every time speaker said -->
+      <div id="agent-chatbox">
+        <p id="agent">buddy</p>
+        <div class="question">
+
+          <% if (response != "") { %>
+          <p><%=response%></p>
+          <% } %>
+          <% if (question != "") { %>
+          <p><%=question%></p>
           <% } %>
         </div>
       </div>
-    </div><div class="block chatbox">
-      <!-- microphone -->
-      <% if (end==false) { %>
-      <div id="mic-container">
-        <button id="slash-mic" type="button"><i class="fas fa-microphone-slash"></i></button>
-      </div>
-      <% } %>
-      <div id="chatbox-container" style="padding: 80px 40px;">
-        <!-- agent's chat : #agent-chatbox.innerHTML will deleted every time speaker said -->
-        <div id="agent-chatbox">
-          <p id="agent">buddy</p>
-          <div class="question">
-           
-            <% if (response != "") { %>
-            <p><%=response%></p>
-            <% } %>
-            <p><%=question%></p>
-           
-          </div>  
-          </div>
 
-          <div id="user-chatbox" style="padding: 80px 40px;"></div>
-          <form class="play_form" method="POST" action="/game/<%=id%>/play">
-            <input type="text" name="text">
-            <input type="submit" value="ok">
-          </form>
-        </div>     
-     
-
-      
-
-        
-      </div>
+      <div id="user-chatbox" style="padding: 80px 40px;"></div>
+      <form class="play_form" method="POST" action="/game/<%=id%>/play">
+        <input type="text" name="text">
+        <input type="submit" value="ok">
+      </form>
     </div>
-    <script src="/js/speech to text.js"></script>
-  </body>
+
+
+
+
+
+  </div>
+  </div>
+  <script src="/js/speech to text.js"></script>
+</body>
+
 </html>

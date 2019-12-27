@@ -619,6 +619,32 @@ class Client {
       client.end()
     }
   }
+
+  async getHints(context, gender) {
+    let client = new pg.Client(
+      "postgres://postgres:gameboy@localhost:5432/iosonoio"
+    )
+    await client.connect()
+
+    try {
+      let query = await client.query(
+        "SELECT * FROM " + context + " WHERE gender_id=$1",
+        [gender]
+      )
+
+      if (query.rowCount == 0) {
+        logger.error("There is no hint available")
+        throw Error("Unexpected error, please retry")
+      }
+
+      return query.rows
+    } catch (e) {
+      logger.error(e.message)
+      throw e
+    } finally {
+      client.end()
+    }
+  }
 }
 
 module.exports = Client

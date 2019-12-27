@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/style/hint.css" />
+    <script src="https://kit.fontawesome.com/8832483f9d.js" crossorigin="anonymous"></script>
+    <script src="/js/hint.js"></script>
+
+</head>
+
+
+
+<body>
+
+    <div class="block screen">
+        <!-- logo -->
+        <div id="logo-container">
+            <div id="logo">io sono io</div>
+        </div>
+        <div id="avatar-container">
+            <!-- get avatar information from the server -->
+            <img id="avimg" src="<%=hints[0].avatar.url%>">
+        </div>
+    </div>
+    <div class="block hint">
+        <div class="title-container">
+            <p class="title">Hint</p>
+        </div>
+
+        <div id="lines">
+            <% hints.forEach(function(hint){ %>
+            <p class="line" onmouseover='updateImg("<%=hint.avatar.url%>")'><%=hint.answer%></p>
+            <% }); %>
+        </div>
+
+        <div class="play_form">
+            <form class="play_form" method="GET" action="/game/<%=id%>/play">
+                <input type="submit" value="back">
+            </form>
+        </div>
+
+    </div>
+</body>
+
+</html>
