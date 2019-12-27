@@ -61,15 +61,15 @@ router.get("/game/:gameId/play", async function(req, res, next) {
 
     let getAvatarValueResp = await client.getAvatarValue(gameId)
 
-    let av = new Avatar(
-      getAvatarValueResp.gender_id,
-      getAvatarValueResp.eye_value,
-      getAvatarValueResp.hair_value,
-      getAvatarValueResp.mouth_value,
-      getAvatarValueResp.nose_value,
-      getAvatarValueResp.hair_tone_value,
-      getAvatarValueResp.pupil_tone_value
-    )
+    let av = new Avatar({
+      gender: getAvatarValueResp.gender_id,
+      eye: getAvatarValueResp.eye_value,
+      hair: getAvatarValueResp.hair_value,
+      mouth: getAvatarValueResp.mouth_value,
+      nose: getAvatarValueResp.nose_value,
+      hair_tone: getAvatarValueResp.hair_tone_value,
+      pupil_tone: getAvatarValueResp.pupil_tone_value
+    })
     logger.info("The avatar is", { avatar: av })
 
     res.render(path.join(__dirname, "../public/views", "3.ejs"), {
@@ -222,15 +222,15 @@ async function handleFirstResponse(
 
     let getAvatarValueResp = await client.getAvatarValue(gameId)
 
-    let av = new Avatar(
-      getAvatarValueResp.gender_id,
-      getAvatarValueResp.eye_value,
-      getAvatarValueResp.hair_value,
-      getAvatarValueResp.mouth_value,
-      getAvatarValueResp.nose_value,
-      getAvatarValueResp.hair_tone_value,
-      getAvatarValueResp.pupil_tone_value
-    )
+    let av = new Avatar({
+      gender: getAvatarValueResp.gender_id,
+      eye: getAvatarValueResp.eye_value,
+      hair: getAvatarValueResp.hair_value,
+      mouth: getAvatarValueResp.mouth_value,
+      nose: getAvatarValueResp.nose_value,
+      hair_tone: getAvatarValueResp.hair_tone_value,
+      pupil_tone: getAvatarValueResp.pupil_tone_value
+    })
 
     res.render(path.join(__dirname, "../public/views", "3.ejs"), {
       id: gameId,
@@ -269,15 +269,15 @@ async function handleFirstResponse(
 
   let getAvatarValueResp = await client.getAvatarValue(gameId)
 
-  let av = new Avatar(
-    getAvatarValueResp.gender_id,
-    getAvatarValueResp.eye_value,
-    getAvatarValueResp.hair_value,
-    getAvatarValueResp.mouth_value,
-    getAvatarValueResp.nose_value,
-    getAvatarValueResp.hair_tone_value,
-    getAvatarValueResp.pupil_tone_value
-  )
+  let av = new Avatar({
+    gender: getAvatarValueResp.gender_id,
+    eye: getAvatarValueResp.eye_value,
+    hair: getAvatarValueResp.hair_value,
+    mouth: getAvatarValueResp.mouth_value,
+    nose: getAvatarValueResp.nose_value,
+    hair_tone: getAvatarValueResp.hair_tone_value,
+    pupil_tone: getAvatarValueResp.pupil_tone_value
+  })
 
   let response = result.fulfillmentText
   response = response.replace(/Described/g, getAvatarResp.name)
@@ -313,15 +313,15 @@ async function handleYesConfirmation(
 
   let getAvatarValueResp = await client.getAvatarValue(gameId)
 
-  let av = new Avatar(
-    getAvatarValueResp.gender_id,
-    getAvatarValueResp.eye_value,
-    getAvatarValueResp.hair_value,
-    getAvatarValueResp.mouth_value,
-    getAvatarValueResp.nose_value,
-    getAvatarValueResp.hair_tone_value,
-    getAvatarValueResp.pupil_tone_value
-  )
+  let av = new Avatar({
+    gender: getAvatarValueResp.gender_id,
+    eye: getAvatarValueResp.eye_value,
+    hair: getAvatarValueResp.hair_value,
+    mouth: getAvatarValueResp.mouth_value,
+    nose: getAvatarValueResp.nose_value,
+    hair_tone: getAvatarValueResp.hair_tone_value,
+    pupil_tone: getAvatarValueResp.pupil_tone_value
+  })
 
   let getQuestionLeftResp = await client.getQuestionsLeft(
     gameId,
@@ -405,15 +405,15 @@ async function handleNoConfirmation(
 
   let getAvatarValueResp = await client.getAvatarValue(gameId)
 
-  let av = new Avatar(
-    getAvatarValueResp.gender_id,
-    getAvatarValueResp.eye_value,
-    getAvatarValueResp.hair_value,
-    getAvatarValueResp.mouth_value,
-    getAvatarValueResp.nose_value,
-    getAvatarValueResp.hair_tone_value,
-    getAvatarValueResp.pupil_tone_value
-  )
+  let av = new Avatar({
+    gender: getAvatarValueResp.gender_id,
+    eye: getAvatarValueResp.eye_value,
+    hair: getAvatarValueResp.hair_value,
+    mouth: getAvatarValueResp.mouth_value,
+    nose: getAvatarValueResp.nose_value,
+    hair_tone: getAvatarValueResp.hair_tone_value,
+    pupil_tone: getAvatarValueResp.pupil_tone_value
+  })
 
   res.render(path.join(__dirname, "../public/views", "3.ejs"), {
     id: gameId,
@@ -450,15 +450,15 @@ async function handleBadConfirmation(
 
   let getAvatarValueResp = await client.getAvatarValue(gameId)
 
-  let av = new Avatar(
-    getAvatarValueResp.gender_id,
-    getAvatarValueResp.eye_value,
-    getAvatarValueResp.hair_value,
-    getAvatarValueResp.mouth_value,
-    getAvatarValueResp.nose_value,
-    getAvatarValueResp.hair_tone_value,
-    getAvatarValueResp.pupil_tone_value
-  )
+  let av = new Avatar({
+    gender: getAvatarValueResp.gender_id,
+    eye: getAvatarValueResp.eye_value,
+    hair: getAvatarValueResp.hair_value,
+    mouth: getAvatarValueResp.mouth_value,
+    nose: getAvatarValueResp.nose_value,
+    hair_tone: getAvatarValueResp.hair_tone_value,
+    pupil_tone: getAvatarValueResp.pupil_tone_value
+  })
 
   res.render(path.join(__dirname, "../public/views", "3.ejs"), {
     id: gameId,

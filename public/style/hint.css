@@ -1,0 +1,80 @@
+* {
+  font-family: AppleSDGothicNeoR00;
+  font-size: 18px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.block {
+  display: inline-block;
+  vertical-align: top;
+}
+.screen {
+  background-color: white;
+  width: 62%;
+  height: 100vh;
+}
+
+#avatar-container {
+  text-align: center;
+  height: 56vh;
+  padding: 37px;
+}
+
+.hint {
+  background-color: #359bef;
+  width: 37%;
+  height: 100vh;
+}
+
+.hint .title {
+  text-align: center;
+  font-family: Showcard Gothic;
+  color: #fddf00;
+}
+
+form {
+  background: transparent;
+  border: inherit;
+}
+
+#logo-container {
+  height: 27%;
+  text-align: center;
+}
+#logo {
+  color: #fddf00;
+  font-family: Showcard Gothic;
+  position: absolute;
+  left: 40px;
+  top: 40px;
+}
+
+#hint {
+  display: inline-block;
+  height: 100%;
+}
+#hint img {
+  height: 100%;
+}
+
+.play_form {
+  text-align: center;
+}
+
+#lines {
+  overflow: auto;
+  height: 88vh;
+  border-style: solid;
+  border-color: #fddf00;
+  border-width: 1px;
+}
+
+.line {
+  width: fit-content;
+  text-align: left;
+  background-color: #e6e6e6;
+  border-radius: 10px;
+  padding: 15px;
+  margin-top: 8px;
+}
