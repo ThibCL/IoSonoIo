@@ -19,156 +19,74 @@ class History {
   ) {
     this.gender = {
       answer: gender_answer,
-      alone: new Avatar(
-        gender_value,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined
-      ),
-      general: new Avatar(
-        gender_value,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined
-      )
+      alone: new Avatar({ gender: gender_value }),
+      general: new Avatar({ gender: gender_value })
     }
 
     this.eye = {
       answer: eye_answer,
-      alone: new Avatar(
-        gender_value,
-        eye_value,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined
-      ),
-      general: new Avatar(
-        gender_value,
-        eye_value,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined
-      )
+      alone: new Avatar({ gender: gender_value, eye: eye_value }),
+      general: new Avatar({ gender: gender_value, eye: eye_value })
     }
 
     this.hair = {
       answer: hair_answer,
-      alone: new Avatar(
-        gender_value,
-        undefined,
-        hair_value,
-        undefined,
-        undefined,
-        undefined,
-        undefined
-      ),
-      general: new Avatar(
-        gender_value,
-        eye_value,
-        hair_value,
-        undefined,
-        undefined,
-        undefined,
-        undefined
-      )
+      alone: new Avatar({ gender: gender_value, hair: hair_value }),
+      general: new Avatar({
+        gender: gender_value,
+        eye: eye_value,
+        hair: hair_value
+      })
     }
 
     this.mouth = {
       answer: mouth_answer,
-      alone: new Avatar(
-        gender_value,
-        undefined,
-        undefined,
-        mouth_value,
-        undefined,
-        undefined,
-        undefined
-      ),
-      general: new Avatar(
-        gender_value,
-        eye_value,
-        hair_value,
-        mouth_value,
-        undefined,
-        undefined,
-        undefined
-      )
+      alone: new Avatar({ gender: gender_value, mouth: mouth_value }),
+      general: new Avatar({
+        gender: gender_value,
+        eye: eye_value,
+        hair: hair_value,
+        mouth: mouth_value
+      })
     }
 
     this.nose = {
       answer: nose_answer,
-      alone: new Avatar(
-        gender_value,
-        undefined,
-        undefined,
-        undefined,
-        nose_value,
-        undefined,
-        undefined
-      ),
-      general: new Avatar(
-        gender_value,
-        eye_value,
-        hair_value,
-        mouth_value,
-        nose_value,
-        undefined,
-        undefined
-      )
+      alone: new Avatar({ gender: gender_value, nose: nose_value }),
+      general: new Avatar({
+        gender: gender_value,
+        eye: eye_value,
+        hair: hair_value,
+        mouth: mouth_value,
+        nose: nose_value
+      })
     }
 
     this.hair_tone = {
       answer: hair_tone_answer,
-      alone: new Avatar(
-        gender_value,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        hair_tone_value,
-        undefined
-      ),
-      general: new Avatar(
-        gender_value,
-        eye_value,
-        hair_value,
-        mouth_value,
-        nose_value,
-        hair_tone_value,
-        undefined
-      )
+      alone: new Avatar({ gender: gender_value, hair_tone: hair_tone_value }),
+      general: new Avatar({
+        gender: gender_value,
+        eye: eye_value,
+        hair: hair_value,
+        mouth: mouth_value,
+        nose: nose_value,
+        hair_tone: hair_tone_value
+      })
     }
 
     this.pupil_tone = {
       answer: pupil_tone_answer,
-      alone: new Avatar(
-        gender_value,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-        pupil_tone_value
-      ),
-      general: new Avatar(
-        gender_value,
-        eye_value,
-        hair_value,
-        mouth_value,
-        nose_value,
-        hair_tone_value,
-        pupil_tone_value
-      )
+      alone: new Avatar({ gender: gender_value, pupil_tone: pupil_tone_value }),
+      general: new Avatar({
+        gender: gender_value,
+        eye: eye_value,
+        hair: hair_value,
+        mouth: mouth_value,
+        nose: nose_value,
+        hair_tone: hair_tone_value,
+        pupil_tone: pupil_tone_value
+      })
     }
   }
 }

@@ -558,7 +558,7 @@ class Client {
       let query = await client.query(
         "SELECT avatar_id,eye.value AS eye_value, hair.value AS hair_value, nose.value AS nose_value, hair_tone.value AS hair_tone_value, mouth.value AS mouth_value, pupil_tone.value AS pupil_tone_value, avatar.gender_id " +
           "FROM avatar " +
-          "LEFT JOIN hair ON avatar.hair_id=hair.hair_id AND avatar.gender_id=hair.hair_id " +
+          "LEFT JOIN hair ON avatar.hair_id=hair.hair_id AND avatar.gender_id=hair.gender_id " +
           "LEFT JOIN nose ON avatar.nose_id=nose.nose_id AND avatar.gender_id=nose.gender_id " +
           "LEFT JOIN hair_tone ON avatar.hair_tone_id=hair_tone.hair_tone_id AND avatar.gender_id=hair_tone.gender_id " +
           "LEFT JOIN mouth ON avatar.mouth_id=mouth.mouth_id AND avatar.gender_id=mouth.gender_id " +
