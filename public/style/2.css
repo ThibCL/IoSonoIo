@@ -60,11 +60,19 @@ p {
   background-color: inherit;
   font-size: 32px;
 }
+
 .button {
   border: none;
   background-color: inherit;
   font-size: 24px;
+
 }
+
+.start .button {
+  font-family: Showcard Gothic;
+  color: #FDDF00;
+}
+
 #explaination2 {
   text-align: left;
   font-size: 20px;
