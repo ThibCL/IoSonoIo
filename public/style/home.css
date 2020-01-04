@@ -15,17 +15,9 @@ body {
 }
 
 .start {
-  margin-top: 77px;
   font-family: Showcard Gothic;
-}
-
-.start a {
   border: none;
   color: #FDDF00;
   background-color: inherit;
   font-size: 32px;
-}
-
-.ahah {
-  text-align: center;
 }
