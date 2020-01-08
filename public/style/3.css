@@ -34,9 +34,9 @@
 #agent {
   font-family: Showcard Gothic;
   font-size: 22px;
-  text-align: left;
-  margin-left: 15px;
   color: #e6e6e6;
+  display: flex;
+  align-items: center;
 }
 .question {
   max-width: 100%;
