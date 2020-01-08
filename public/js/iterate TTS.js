@@ -57,9 +57,13 @@ function speak(){
   }
 }
 
-document.addEventListener("click", function(){
+
+var button = document.getElementById("hi");
+
+button.onclick = function(){
     speak();
-})
+}
+
 setTimeout(function(){
-    document.getElementById("hi").click();
+    button.click();
 }, 100);
