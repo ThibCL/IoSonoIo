@@ -34,17 +34,19 @@
       <div id="agent-chatbox">
         <p id="agent"><img src="/style/buddy.png" style="height: 45px; margin-right: 10px;">buddy</p>
         <div class="question">
-
           <% if (response != "") { %>
           <p class="question-container"><%=response%></p>
           <% } %>
+        </div>
+        <div class="question"><
           <% if (question != "") { %>
           <p class="question-container"><%=question%></p>
           <% } %>
         </div>
       </div>
 
-      <div id="user-chatbox" style="padding: 80px 40px;"></div>
+      <div id="user-chatbox" style="padding: 10px 40px;">
+      </div>
       <form class="play_form" method="POST" action="/game/<%=id%>/play">
 
       </form>
