@@ -75,7 +75,7 @@
   margin: 0 auto;
   position: fixed;
   bottom: 25px;
-  width: 37%;
+  width: 63%;
 }
 button {
   background: transparent;
@@ -83,7 +83,7 @@ button {
 }
 .fas {
   font-size: 56px;
-  color: white;
+  color: #359bef;
 }
 #logo-container {
   height: 27%;

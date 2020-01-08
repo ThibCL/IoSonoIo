@@ -21,18 +21,23 @@
       <!-- get avatar information from the server -->
       <img src="<%=avatar%>">
     </div>
+    <% if (end==false) { %>
+      <div id="mic-container">
+        <button id="slash-mic" type="button"><i class="fas fa-microphone-slash"></i></button>
+      </div>
+      <% } %>
   </div>
   <div class="block chatbox">
     <!-- microphone -->
-    <% if (end==false) { %>
+    <!-- <% if (end==false) { %>
     <div id="mic-container">
       <button id="slash-mic" type="button"><i class="fas fa-microphone-slash"></i></button>
     </div>
-    <% } %>
+    <% } %> -->
     <div id="chatbox-container" style="padding: 80px 40px;">
       <!-- agent's chat : #agent-chatbox.innerHTML will deleted every time speaker said -->
       <div id="agent-chatbox">
-        <p id="agent"><img src="../style/buddy.png" style="height: 45px; margin-right: 10px;">buddy</p>
+        <p id="agent"><img src="/style/buddy.png" style="height: 45px; margin-right: 10px;">buddy</p>
         <div class="question">
 
           <% if (response != "") { %>
