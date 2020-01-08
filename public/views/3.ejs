@@ -11,7 +11,8 @@
   <div class="block screen">
     <!-- logo -->
     <div id="logo-container">
-      <div id="logo">io sono io</div>
+      <div id="logo">io sono io<button id="hi" style="visibility: hidden;">here</button>
+      </div>
       <form method="GET" action="/game/<%=id%>/hint">
         <input type="image" src="/style/hint-grey.png" alt="hint">
       </form>
@@ -28,12 +29,6 @@
       <% } %>
   </div>
   <div class="block chatbox">
-    <!-- microphone -->
-    <!-- <% if (end==false) { %>
-    <div id="mic-container">
-      <button id="slash-mic" type="button"><i class="fas fa-microphone-slash"></i></button>
-    </div>
-    <% } %> -->
     <div id="chatbox-container" style="padding: 80px 40px;">
       <!-- agent's chat : #agent-chatbox.innerHTML will deleted every time speaker said -->
       <div id="agent-chatbox">
@@ -41,10 +36,10 @@
         <div class="question">
 
           <% if (response != "") { %>
-          <p><%=response%></p>
+          <p class="question-container"><%=response%></p>
           <% } %>
           <% if (question != "") { %>
-          <p><%=question%></p>
+          <p class="question-container"><%=question%></p>
           <% } %>
         </div>
       </div>
@@ -62,6 +57,8 @@
   </div>
   </div>
   <script src="/js/speech to text.js"></script>
+  <script src="/js/iterate TTS.js"></script>
+
 </body>
 
 </html>
