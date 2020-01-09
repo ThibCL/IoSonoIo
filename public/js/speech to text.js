@@ -1,69 +1,81 @@
+window.SpeechRecognition =
+  window.webkitSpeechRecognition || window.SpeechRecognition
+let finalTranscript = ""
+let recognition = new window.SpeechRecognition()
 
-var synth = window.speechSynthesis;
-var inputTxt = document.querySelector('.question-container');
-var voices = [];
+recognition.interimResults = true
+recognition.maxAlternatives = 10
+recognition.continuous = true
+recognition.lang = "en-us"
 
-var inputAll = document.querySelectorAll('.question-container');
-var textStorage = "";
-for (i = 0; i<inputAll.length; i++){
-    textStorage += inputAll[i].innerHTML + "," ;
-    console.log(textStorage);
-}
+const micBtn = document.querySelector("button")
+const micIcon = micBtn.querySelector("i")
 
-function populateVoiceList() {
-  voices = synth.getVoices().sort(function (a, b) {
-      const aname = a.name.toUpperCase(), bname = b.name.toUpperCase();
-      if ( aname < bname ) return -1;
-      else if ( aname == bname ) return 0;
-      else return +1;
-  });
-}
-
-populateVoiceList();
-
-if (speechSynthesis.onvoiceschanged !== undefined) {
-    console.log("here?");
-  speechSynthesis.onvoiceschanged = populateVoiceList;
-}
-
-function speak(){
-    console.log("speak is start");
-    console.log("voices is as follows:" + voices);
-
-    if (synth.speaking) {
-        console.error('speechSynthesis.speaking');
-        return;
-    }
-    if (inputTxt.innerHTML !== '') {
-    var utterThis = new SpeechSynthesisUtterance(textStorage);
-    utterThis.onend = function (event) {
-        console.log('SpeechSynthesisUtterance.onend');
-    }
-    utterThis.onerror = function (event) {
-        console.error('SpeechSynthesisUtterance.onerror');
-    }
-    var selectedOption = "Google US English"; // can change the speaker's voice
-    console.log("selectedoption is : " + selectedOption);
-    for(i = 0; i < voices.length ; i++) {
-      if(voices[i].name === selectedOption) {
-        utterThis.voice = voices[i];
-        console.log(utterThis.voice);
-        break;
-      }
-    }
-    utterThis.pitch = 1; // change the pitch
-    utterThis.rate = 0.7; // change the rate
-    synth.speak(utterThis);
+micBtn.onclick = function() {
+  recognition.start()
+  console.log("recognition started")
+  if (micIcon.classList.contains("fa-microphone-slash")) {
+    micIcon.classList.remove("fa-microphone-slash")
+    micIcon.classList.add("fa-microphone")
   }
 }
 
+recognition.onresult = event => {
+  // run when speech recognition service return result
 
-var button = document.getElementById("hi");
+  // original code
+  let interimTranscript = ""
+  for (let i = event.resultIndex, len = event.results.length; i < len; i++) {
+    let transcript = event.results[i][0].transcript
+    if (event.results[i].isFinal) {
+      finalTranscript += transcript
+    } else {
+      interimTranscript += transcript
+    }
+  }
 
-button.onclick = function(){
-    speak();
+  if (event.results[0].isFinal) {
+    // if user stop talking, recognition stopped
+    console.log("recognition stopped")
+    console.log(finalTranscript)
+    recognition.stop()
+    if (micIcon.classList.contains("fa-microphone")) {
+      micIcon.classList.remove("fa-microphone")
+      micIcon.classList.add("fa-microphone-slash")
+      setTimeout(function() {
+        console.log("Timeout is working now")
+        // clean the context of chatbox and transciption
+        finalTranscript = ""
+        document.querySelector("#user-chatbox").innerHTML = ""
+        document.querySelector("#agent-chatbox").innerHTML = ""
+      }, 3000)
+    }
+
+    var inp = document.createElement("input")
+    inp.type = "hidden"
+    inp.name = "text"
+    inp.value = finalTranscript
+    let form = document.getElementsByClassName("play_form")
+    console.log(form)
+    form[0].appendChild(inp)
+    form[0].submit()
+  }
+
+  document.querySelector("#user-chatbox").innerHTML =
+    '<p id="user">user</p>' + '<div id="answer"></div>'
+  document.querySelector("#answer").innerHTML =
+    '<p id="transcription-container"></p>'
+  document.querySelector("#transcription-container").innerHTML =
+    finalTranscript + '<i style="color:#ddd;">' + interimTranscript + "</>"
+
+  // data for server, HTTP request
+  // const data = finalTranscript;
+  // const options = {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json'
+  //   },
+  //   body: JSON.stringify(data)
+  // };
+  // fetch('/', options);
 }
-
-setTimeout(function(){
-    button.click();
-}, 100);
