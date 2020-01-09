@@ -42,7 +42,7 @@ function speak(){
     utterThis.onerror = function (event) {
         console.error('SpeechSynthesisUtterance.onerror');
     }
-    var selectedOption = "Fiona"; // can change the speaker's voice
+    var selectedOption = "Google US English"; // can change the speaker's voice
     console.log("selectedoption is : " + selectedOption);
     for(i = 0; i < voices.length ; i++) {
       if(voices[i].name === selectedOption) {
@@ -52,7 +52,7 @@ function speak(){
       }
     }
     utterThis.pitch = 1; // change the pitch
-    utterThis.rate = 0.7; // change the rate
+    utterThis.rate = 1; // change the rate
     synth.speak(utterThis);
   }
 }

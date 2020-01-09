@@ -14,7 +14,7 @@
       <div id="logo">io sono io<input id="hi" style="visibility: hidden;" value="here">
       </div>
       <form method="GET" action="/game/<%=id%>/hint">
-        <input type="image" src="/style/hint-grey.png" alt="hint">
+        <input type="image" src="/style/hint-yellow.png" alt="hint">
       </form>
 
     </div>
@@ -22,13 +22,14 @@
       <!-- get avatar information from the server -->
       <img src="<%=avatar%>">
     </div>
+
+  </div>
+  <div class="block chatbox">
     <% if (end==false) { %>
       <div id="mic-container">
         <button id="slash-mic" type="button"><i class="fas fa-microphone-slash"></i></button>
       </div>
       <% } %>
-  </div>
-  <div class="block chatbox">
     <div id="chatbox-container" style="padding: 80px 40px;">
       <!-- agent's chat : #agent-chatbox.innerHTML will deleted every time speaker said -->
       <div id="agent-chatbox">

@@ -64,10 +64,8 @@ form {
 
 #lines {
   overflow: auto;
-  height: 88vh;
-  border-style: solid;
-  border-color: #fddf00;
-  border-width: 1px;
+  height: 80vh;
+  padding: 0 40px;
 }
 
 .line {
