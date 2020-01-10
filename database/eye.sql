@@ -16,3 +16,5 @@ INSERT INTO eye(gender_id, name, value, idiomatic_answer) VALUES (1, 'long', 282
 INSERT INTO eye(gender_id, name, value, idiomatic_answer) VALUES (2, 'long', 2827,'She has Name eyes');
 INSERT INTO eye(gender_id, name, value, idiomatic_answer) VALUES (1, 'hawk', 1620,'He has Name eyes');
 INSERT INTO eye(gender_id, name, value, idiomatic_answer) VALUES (2, 'hawk', 1620,'She has Name eyes');
+INSERT INTO eye(gender_id, name, value, idiomatic_answer) VALUES (1, 'normal', 1613,'He has Name eyes');
+INSERT INTO eye(gender_id, name, value, idiomatic_answer) VALUES (2, 'normal', 1613,'She has Name eyes');
