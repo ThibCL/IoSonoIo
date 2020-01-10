@@ -28,10 +28,6 @@ class Avatar {
       carac.ear = -1
     }
 
-    if (carac.eyelash == undefined) {
-      carac.eyelash = -1
-    }
-
     if (carac.glasses == undefined) {
       carac.glasses = -1
     }
@@ -74,6 +70,10 @@ class Avatar {
 
     if (carac.nose == undefined) {
       carac.nose = -1
+    }
+
+    if (carac.eyelash == undefined) {
+      carac.eyelash = -1
     }
 
     if (carac.hair_tone == undefined) {
