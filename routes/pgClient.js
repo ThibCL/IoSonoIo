@@ -512,6 +512,7 @@ class Client {
           "LEFT JOIN nose ON avatar.nose_id=nose.nose_id AND avatar.gender_id=nose.gender_id " +
           "LEFT JOIN hair_tone ON avatar.hair_tone_id=hair_tone.hair_tone_id AND avatar.gender_id=hair_tone.gender_id " +
           "LEFT JOIN mouth ON avatar.mouth_id=mouth.mouth_id AND avatar.gender_id=mouth.gender_id " +
+          "LEFT JOIN eye ON avatar.eye_id=eye.eye_id AND avatar.gender_id=eye.gender_id " +
           "LEFT JOIN pupil_tone ON avatar.pupil_tone_id=pupil_tone.pupil_tone_id AND avatar.gender_id=pupil_tone.gender_id " +
           "LEFT JOIN beard ON avatar.beard_id=beard.beard_id AND avatar.gender_id=beard.gender_id " +
           "LEFT JOIN brow ON avatar.brow_id=brow.brow_id AND avatar.gender_id=brow.gender_id " +
