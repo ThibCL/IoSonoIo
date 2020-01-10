@@ -504,7 +504,7 @@ class Client {
 
     try {
       let query = await client.query(
-        "SELECT avatar_id,eye.value AS eye_value, hair.value AS hair_value, nose.value AS nose_value, hair_tone.value AS hair_tone_value, mouth.value AS mouth_value, pupil_tone.value AS pupil_tone_value," +
+        "SELECT avatar_id, eye.value AS eye_value, hair.value AS hair_value, nose.value AS nose_value, hair_tone.value AS hair_tone_value, mouth.value AS mouth_value, pupil_tone.value AS pupil_tone_value," +
           "beard.value AS beard_value, brow.value AS brow_value, ear.value AS ear_value, eyelash.value AS eyelash_value, glasses.value AS glasses_value, jaw.value AS jaw_value, brow_tone.value AS brow_tone_value," +
           "beard_tone.value AS beard_tone_value, eyeshadow_tone.value AS eyeshadow_tone_value, lipstick_tone.value AS lipstick_tone_value, skin_tone.value AS skin_tone_value, avatar.gender_id " +
           "FROM avatar " +
@@ -513,17 +513,17 @@ class Client {
           "LEFT JOIN hair_tone ON avatar.hair_tone_id=hair_tone.hair_tone_id AND avatar.gender_id=hair_tone.gender_id " +
           "LEFT JOIN mouth ON avatar.mouth_id=mouth.mouth_id AND avatar.gender_id=mouth.gender_id " +
           "LEFT JOIN pupil_tone ON avatar.pupil_tone_id=pupil_tone.pupil_tone_id AND avatar.gender_id=pupil_tone.gender_id " +
-          "LEFT JOIN beard ON avatar.beard_id=beard.beard_id AND avatar.gender_id=beard.gender_id" +
-          "LEFT JOIN brow ON avatar.brow_id=brow.brow_id AND avatar.gender_id=brow.gender_id" +
-          "LEFT JOIN ear ON avatar.ear_id=ear.ear_id AND avatar.gender_id=ear.gender_id" +
-          "LEFT JOIN eyelash ON avatar.eyelash_id=eyelash.eyelash_id AND avatar.gender_id=eyelash.gender_id" +
-          "LEFT JOIN glasses ON avatar.glasses_id=glasses.glasses_id AND avatar.gender_id=glasses.gender_id" +
-          "LEFT JOIN jaw ON avatar.jaw_id=jaw.jaw_id AND avatar.gender_id=jaw.gender_id" +
-          "LEFT JOIN brow_tone ON avatar.brow_tone_id=brow_tone.brow_tone_id AND avatar.gender_id=brow_tone.gender_id" +
-          "LEFT JOIN beard_tone ON avatar.beard_tone_id=beard_tone.beard_tone_id AND avatar.gender_id=beard_tone.gender_id" +
-          "LEFT JOIN eyeshadow_tone ON avatar.eyeshadow_tone_id=eyeshadow_tone.eyeshadow_tone_id AND avatar.gender_id=eyeshadow_tone.gender_id" +
-          "LEFT JOIN lipstick ON avatar.lipstick_id=lipstick.lipstick_id AND avatar.gender_id=lipstick.gender_id" +
-          "LEFT JOIN skin_tone ON avatar.skin_tone_id=skin_tone.skin_tone_id AND avatar.gender_id=skin_tone.gender_id" +
+          "LEFT JOIN beard ON avatar.beard_id=beard.beard_id AND avatar.gender_id=beard.gender_id " +
+          "LEFT JOIN brow ON avatar.brow_id=brow.brow_id AND avatar.gender_id=brow.gender_id " +
+          "LEFT JOIN ear ON avatar.ear_id=ear.ear_id AND avatar.gender_id=ear.gender_id " +
+          "LEFT JOIN eyelash ON avatar.eyelash_id=eyelash.eyelash_id AND avatar.gender_id=eyelash.gender_id " +
+          "LEFT JOIN glasses ON avatar.glasses_id=glasses.glasses_id AND avatar.gender_id=glasses.gender_id " +
+          "LEFT JOIN jaw ON avatar.jaw_id=jaw.jaw_id AND avatar.gender_id=jaw.gender_id " +
+          "LEFT JOIN brow_tone ON avatar.brow_tone_id=brow_tone.brow_tone_id AND avatar.gender_id=brow_tone.gender_id " +
+          "LEFT JOIN beard_tone ON avatar.beard_tone_id=beard_tone.beard_tone_id AND avatar.gender_id=beard_tone.gender_id " +
+          "LEFT JOIN eyeshadow_tone ON avatar.eyeshadow_tone_id=eyeshadow_tone.eyeshadow_tone_id AND avatar.gender_id=eyeshadow_tone.gender_id " +
+          "LEFT JOIN lipstick ON avatar.lipstick_id=lipstick.lipstick_id AND avatar.gender_id=lipstick.gender_id " +
+          "LEFT JOIN skin_tone ON avatar.skin_tone_id=skin_tone.skin_tone_id AND avatar.gender_id=skin_tone.gender_id " +
           "WHERE avatar.id=$1 ",
         [gameId]
       )
