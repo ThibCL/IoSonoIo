@@ -522,7 +522,7 @@ class Client {
           "LEFT JOIN brow_tone ON avatar.brow_tone_id=brow_tone.brow_tone_id AND avatar.gender_id=brow_tone.gender_id " +
           "LEFT JOIN beard_tone ON avatar.beard_tone_id=beard_tone.beard_tone_id AND avatar.gender_id=beard_tone.gender_id " +
           "LEFT JOIN eyeshadow_tone ON avatar.eyeshadow_tone_id=eyeshadow_tone.eyeshadow_tone_id AND avatar.gender_id=eyeshadow_tone.gender_id " +
-          "LEFT JOIN lipstick ON avatar.lipstick_id=lipstick.lipstick_id AND avatar.gender_id=lipstick.gender_id " +
+          "LEFT JOIN lipstick_tone ON avatar.lipstick_tone_id=lipstick_tone.lipstick_tone_id AND avatar.gender_id=lipstick_tone.gender_id " +
           "LEFT JOIN skin_tone ON avatar.skin_tone_id=skin_tone.skin_tone_id AND avatar.gender_id=skin_tone.gender_id " +
           "WHERE avatar.id=$1 ",
         [gameId]
