@@ -551,8 +551,14 @@ class Client {
       let query = await client.query(
         "SELECT avatar_id, avatar.gender_id, " +
           "gender.gender_id AS gender_value, eye.value AS eye_value, hair.value AS hair_value, nose.value AS nose_value, hair_tone.value AS hair_tone_value, mouth.value AS mouth_value, pupil_tone.value AS pupil_tone_value, " +
+          "beard.value  AS beard_value, brow.value AS brow_value, ear.value AS ear_value, eyelash.value AS eyelash_value, glasses.value AS glasses_value, eyelash.value AS eyelash_value, jaw.value AS jaw_value, brow_tone.value AS brow_tone_value, " +
+          "beard_tone.value AS beard_tone_value, eyeshadow_tone.value AS eyeshadow_tone_value, lipstick_tone.value AS lipstick_tone_value, skin_tone.value AS skin_tone_value, " +
           "eye.name AS eye_name, hair.name AS hair_name, nose.name AS nose_name, hair_tone.name AS hair_tone_name, mouth.name AS mouth_name, pupil_tone.name AS pupil_tone_name, " +
+          "beard.name  AS beard_name, brow.name AS brow_name, ear.name AS ear_name, eyelash.name AS eyelash_name, glasses.name AS glasses_name, eyelash.name AS eyelash_name, jaw.name AS jaw_name, brow_tone.name AS brow_tone_name, " +
+          "beard_tone.name AS beard_tone_name, eyeshadow_tone.name AS eyeshadow_tone_name, lipstick_tone.name AS lipstick_tone_name, skin_tone.name AS skin_tone_name, " +
           "gender.idiomatic_answer AS gender_idiomatic_answer, eye.idiomatic_answer AS eye_idiomatic_answer, hair.idiomatic_answer AS hair_idiomatic_answer, nose.idiomatic_answer AS nose_idiomatic_answer, hair_tone.idiomatic_answer AS hair_tone_idiomatic_answer, mouth.idiomatic_answer AS mouth_idiomatic_answer, pupil_tone.idiomatic_answer AS pupil_tone_idiomatic_answer " +
+          "beard.idiomatic_answer  AS beard_idiomatic_answer, brow.idiomatic_answer AS brow_idiomatic_answer, ear.idiomatic_answer AS ear_idiomatic_answer, eyelash.idiomatic_answer AS eyelash_idiomatic_answer, glasses.idiomatic_answer AS glasses_idiomatic_answer, eyelash.idiomatic_answer AS eyelash_idiomatic_answer, jaw.idiomatic_answer AS jaw_idiomatic_answer, brow_tone.idiomatic_answer AS brow_tone_idiomatic_answer, " +
+          "beard_tone.idiomatic_answer AS beard_tone_idiomatic_answer, eyeshadow_tone.idiomatic_answer AS eyeshadow_tone_idiomatic_answer, lipstick_tone.idiomatic_answer AS lipstick_tone_idiomatic_answer, skin_tone.idiomatic_answer AS skin_tone_idiomatic_answer " +
           "FROM avatar " +
           "LEFT JOIN gender ON avatar.gender_id=gender.gender_id " +
           "LEFT JOIN hair ON avatar.hair_id=hair.hair_id AND avatar.gender_id=hair.gender_id " +
@@ -560,7 +566,18 @@ class Client {
           "LEFT JOIN hair_tone ON avatar.hair_tone_id=hair_tone.hair_tone_id AND avatar.gender_id=hair_tone.gender_id " +
           "LEFT JOIN mouth ON avatar.mouth_id=mouth.mouth_id AND avatar.gender_id=mouth.gender_id " +
           "LEFT JOIN pupil_tone ON avatar.pupil_tone_id=pupil_tone.pupil_tone_id AND avatar.gender_id=pupil_tone.gender_id " +
-          "LEFT JOIN eye ON avatar.eye_id=eye.eye_id " +
+          "LEFT JOIN beard ON avatar.beard_id=beard.beard_id AND avatar.gender_id=beard.gender_id " +
+          "LEFT JOIN brow ON avatar.brow_id=brow.brow_id AND avatar.gender_id=brow.gender_id " +
+          "LEFT JOIN ear ON avatar.ear_id=ear.ear_id AND avatar.gender_id=ear.gender_id " +
+          "LEFT JOIN eyelash ON avatar.eyelash_id=eyelash.eyelash_id AND avatar.gender_id=eyelash.gender_id " +
+          "LEFT JOIN glasses ON avatar.glasses_id=glasses.glasses_id AND avatar.gender_id=glasses.gender_id " +
+          "LEFT JOIN jaw ON avatar.jaw_id=jaw.jaw_id AND avatar.gender_id=jaw.gender_id " +
+          "LEFT JOIN brow_tone ON avatar.brow_tone_id=brow_tone.brow_tone_id AND avatar.gender_id=brow_tone.gender_id " +
+          "LEFT JOIN beard_tone ON avatar.beard_tone_id=beard_tone.beard_tone_id AND avatar.gender_id=beard_tone.gender_id " +
+          "LEFT JOIN eyeshadow_tone ON avatar.eyeshadow_tone_id=eyeshadow_tone.eyeshadow_tone_id AND avatar.gender_id=eyeshadow_tone.gender_id " +
+          "LEFT JOIN lipstick_tone ON avatar.lipstick_tone_id=lipstick_tone.lipstick_tone_id AND avatar.gender_id=lipstick_tone.gender_id " +
+          "LEFT JOIN skin_tone ON avatar.skin_tone_id=skin_tone.skin_tone_id AND avatar.gender_id=skin_tone.gender_id " +
+          "LEFT JOIN eye ON avatar.eye_id=eye.eye_id AND avatar.gender_id=eye.gender_id " +
           "WHERE avatar.id=$1 ",
         [gameId]
       )

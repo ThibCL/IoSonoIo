@@ -53,19 +53,19 @@ CREATE TABLE public.Skin_Tone (
 
 ALTER SEQUENCE public.skin_tone_skin_tone_id_seq_1 OWNED BY public.Skin_Tone.Skin_Tone_Id;
 
-CREATE SEQUENCE public.lipstick_tone_lopstick_tone_id_seq_1;
+CREATE SEQUENCE public.lipstick_tone_lipstick_tone_id_seq;
 
 CREATE TABLE public.Lipstick_Tone (
-                Lopstick_Tone_Id INTEGER NOT NULL DEFAULT nextval('public.lipstick_tone_lopstick_tone_id_seq_1'),
+                Lipstick_Tone_Id INTEGER NOT NULL DEFAULT nextval('public.lipstick_tone_lipstick_tone_id_seq'),
                 Gender_Id INTEGER NOT NULL,
                 Name VARCHAR NOT NULL,
                 Value INTEGER NOT NULL,
                 Idiomatic_Answer VARCHAR NOT NULL,
-                CONSTRAINT lipstick_tone_id PRIMARY KEY (Lopstick_Tone_Id, Gender_Id)
+                CONSTRAINT lipstick_tone_id PRIMARY KEY (Lipstick_Tone_Id, Gender_Id)
 );
 
 
-ALTER SEQUENCE public.lipstick_tone_lopstick_tone_id_seq_1 OWNED BY public.Lipstick_Tone.Lopstick_Tone_Id;
+ALTER SEQUENCE public.lipstick_tone_lipstick_tone_id_seq OWNED BY public.Lipstick_Tone.Lipstick_Tone_Id;
 
 CREATE SEQUENCE public.glasses_glasses_id_seq_1;
 
@@ -482,7 +482,7 @@ NOT DEFERRABLE;
 
 ALTER TABLE public.Avatar ADD CONSTRAINT lipstick_tone_avatar_fk
 FOREIGN KEY (Lopstick_Tone_Id, Gender_Id)
-REFERENCES public.Lipstick_Tone (Lopstick_Tone_Id, Gender_Id)
+REFERENCES public.Lipstick_Tone (Lipstick_Tone_Id, Gender_Id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;

@@ -5,7 +5,7 @@ INSERT INTO question(context, question, gender_id) VALUES('nose', 'User, How is 
 INSERT INTO question(context, question, gender_id) VALUES('pupil_tone', 'User, What color are the eyes of Described?',1);
 INSERT INTO question(context, question, gender_id) VALUES('mouth', 'User, How is the mouth of Described?',1);
 INSERT INTO question(context, question, gender_id) VALUES('hair_tone', 'User, What color are the hair of Described?',1);
-INSERT INTO question(context, question, gender_id) VALUES('beard', 'User, What color are the hair of Described?',1);
+INSERT INTO question(context, question, gender_id) VALUES('beard', 'User, How is the beard of Described?',1);
 INSERT INTO question(context, question, gender_id) VALUES('brow', 'User, How are the brows of Described?',1);
 INSERT INTO question(context, question, gender_id) VALUES('ear', 'User, How are the ear of Described?',1);
 INSERT INTO question(context, question, gender_id) VALUES('eyelash', 'User, How are the eyelash of Described?',1);

@@ -23,13 +23,41 @@ router.get("/game/:gameId/endgame", async function(req, res, next) {
       gHR.nose_idiomatic_answer.replace("Name", gHR.nose_name),
       gHR.hair_tone_idiomatic_answer.replace("Name", gHR.hair_tone_name),
       gHR.pupil_tone_idiomatic_answer.replace("Name", gHR.pupil_tone_name),
+      gHR.beard_idiomatic_answer.replace("Name", gHR.beard_name),
+      gHR.brow_idiomatic_answer.replace("Name", gHR.brow_name),
+      gHR.ear_idiomatic_answer.replace("Name", gHR.ear_name),
+      gHR.eyelash_idiomatic_answer.replace("Name", gHR.eyelash_name),
+      gHR.glasses_idiomatic_answer.replace("Name", gHR.glasses_name),
+      gHR.jaw_idiomatic_answer.replace("Name", gHR.jaw_name),
+      gHR.brow_tone_idiomatic_answer.replace("Name", gHR.brow_tone_name),
+      gHR.beard_tone_idiomatic_answer.replace("Name", gHR.beard_tone_name),
+      gHR.eyeshadow_tone_idiomatic_answer.replace(
+        "Name",
+        gHR.eyeshadow_tone_name
+      ),
+      gHR.lipstick_tone_idiomatic_answer.replace(
+        "Name",
+        gHR.lipstick_tone_name
+      ),
+      gHR.skin_tone_idiomatic_answer.replace("Name", gHR.skin_tone_name),
       gHR.gender_value,
       gHR.eye_value,
       gHR.hair_value,
       gHR.mouth_value,
       gHR.nose_value,
       gHR.hair_tone_value,
-      gHR.pupil_tone_value
+      gHR.pupil_tone_value,
+      gHR.beard_value,
+      gHR.brow_value,
+      gHR.ear_value,
+      gHR.eyelash_value,
+      gHR.glasses_value,
+      gHR.jaw_value,
+      gHR.brow_tone_value,
+      gHR.beard_tone_value,
+      gHR.eyeshadow_tone_value,
+      gHR.lipstick_tone_value,
+      gHR.skin_tone_value
     )
 
     res.render(path.join(__dirname, "../public/views", "end.ejs"), {
