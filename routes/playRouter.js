@@ -68,7 +68,18 @@ router.get("/game/:gameId/play", async function(req, res, next) {
       mouth: getAvatarValueResp.mouth_value,
       nose: getAvatarValueResp.nose_value,
       hair_tone: getAvatarValueResp.hair_tone_value,
-      pupil_tone: getAvatarValueResp.pupil_tone_value
+      pupil_tone: getAvatarValueResp.pupil_tone_value,
+      beard: getAvatarValueResp.beard_value,
+      brow: getAvatarValueResp.brow_value,
+      ear: getAvatarValueResp.ear_value,
+      eyelash: getAvatarValueResp.eyelash_value,
+      glasses: getAvatarValueResp.glasses_value,
+      jaw: getAvatarValueResp.jaw_value,
+      brow_tone: getAvatarValueResp.brow_tone_value,
+      beard_tone: getAvatarValueResp.beard_tone_value,
+      eyeshadow_tone: getAvatarValueResp.eyeshadow_tone_value,
+      lipstick_tone: getAvatarValueResp.lipstick_tone_value,
+      skin_tone: getAvatarValueResp.skin_tone_value
     })
     logger.info("The avatar is", { avatar: av })
 
@@ -229,7 +240,18 @@ async function handleFirstResponse(
       mouth: getAvatarValueResp.mouth_value,
       nose: getAvatarValueResp.nose_value,
       hair_tone: getAvatarValueResp.hair_tone_value,
-      pupil_tone: getAvatarValueResp.pupil_tone_value
+      pupil_tone: getAvatarValueResp.pupil_tone_value,
+      beard: getAvatarValueResp.beard_value,
+      brow: getAvatarValueResp.brow_value,
+      ear: getAvatarValueResp.ear_value,
+      eyelash: getAvatarValueResp.eyelash_value,
+      glasses: getAvatarValueResp.glasses_value,
+      jaw: getAvatarValueResp.jaw_value,
+      brow_tone: getAvatarValueResp.brow_tone_value,
+      beard_tone: getAvatarValueResp.beard_tone_value,
+      eyeshadow_tone: getAvatarValueResp.eyeshadow_tone_value,
+      lipstick_tone: getAvatarValueResp.lipstick_tone_value,
+      skin_tone: getAvatarValueResp.skin_tone_value
     })
 
     res.render(path.join(__dirname, "../public/views", "3.ejs"), {
@@ -276,7 +298,18 @@ async function handleFirstResponse(
     mouth: getAvatarValueResp.mouth_value,
     nose: getAvatarValueResp.nose_value,
     hair_tone: getAvatarValueResp.hair_tone_value,
-    pupil_tone: getAvatarValueResp.pupil_tone_value
+    pupil_tone: getAvatarValueResp.pupil_tone_value,
+    beard: getAvatarValueResp.beard_value,
+    brow: getAvatarValueResp.brow_value,
+    ear: getAvatarValueResp.ear_value,
+    eyelash: getAvatarValueResp.eyelash_value,
+    glasses: getAvatarValueResp.glasses_value,
+    jaw: getAvatarValueResp.jaw_value,
+    brow_tone: getAvatarValueResp.brow_tone_value,
+    beard_tone: getAvatarValueResp.beard_tone_value,
+    eyeshadow_tone: getAvatarValueResp.eyeshadow_tone_value,
+    lipstick_tone: getAvatarValueResp.lipstick_tone_value,
+    skin_tone: getAvatarValueResp.skin_tone_value
   })
 
   let response = result.fulfillmentText
@@ -320,7 +353,18 @@ async function handleYesConfirmation(
     mouth: getAvatarValueResp.mouth_value,
     nose: getAvatarValueResp.nose_value,
     hair_tone: getAvatarValueResp.hair_tone_value,
-    pupil_tone: getAvatarValueResp.pupil_tone_value
+    pupil_tone: getAvatarValueResp.pupil_tone_value,
+    beard: getAvatarValueResp.beard_value,
+    brow: getAvatarValueResp.brow_value,
+    ear: getAvatarValueResp.ear_value,
+    eyelash: getAvatarValueResp.eyelash_value,
+    glasses: getAvatarValueResp.glasses_value,
+    jaw: getAvatarValueResp.jaw_value,
+    brow_tone: getAvatarValueResp.brow_tone_value,
+    beard_tone: getAvatarValueResp.beard_tone_value,
+    eyeshadow_tone: getAvatarValueResp.eyeshadow_tone_value,
+    lipstick_tone: getAvatarValueResp.lipstick_tone_value,
+    skin_tone: getAvatarValueResp.skin_tone_value
   })
 
   let getQuestionLeftResp = await client.getQuestionsLeft(
@@ -412,7 +456,18 @@ async function handleNoConfirmation(
     mouth: getAvatarValueResp.mouth_value,
     nose: getAvatarValueResp.nose_value,
     hair_tone: getAvatarValueResp.hair_tone_value,
-    pupil_tone: getAvatarValueResp.pupil_tone_value
+    pupil_tone: getAvatarValueResp.pupil_tone_value,
+    beard: getAvatarValueResp.beard_value,
+    brow: getAvatarValueResp.brow_value,
+    ear: getAvatarValueResp.ear_value,
+    eyelash: getAvatarValueResp.eyelash_value,
+    glasses: getAvatarValueResp.glasses_value,
+    jaw: getAvatarValueResp.jaw_value,
+    brow_tone: getAvatarValueResp.brow_tone_value,
+    beard_tone: getAvatarValueResp.beard_tone_value,
+    eyeshadow_tone: getAvatarValueResp.eyeshadow_tone_value,
+    lipstick_tone: getAvatarValueResp.lipstick_tone_value,
+    skin_tone: getAvatarValueResp.skin_tone_value
   })
 
   res.render(path.join(__dirname, "../public/views", "3.ejs"), {
@@ -457,7 +512,18 @@ async function handleBadConfirmation(
     mouth: getAvatarValueResp.mouth_value,
     nose: getAvatarValueResp.nose_value,
     hair_tone: getAvatarValueResp.hair_tone_value,
-    pupil_tone: getAvatarValueResp.pupil_tone_value
+    pupil_tone: getAvatarValueResp.pupil_tone_value,
+    beard: getAvatarValueResp.beard_value,
+    brow: getAvatarValueResp.brow_value,
+    ear: getAvatarValueResp.ear_value,
+    eyelash: getAvatarValueResp.eyelash_value,
+    glasses: getAvatarValueResp.glasses_value,
+    jaw: getAvatarValueResp.jaw_value,
+    brow_tone: getAvatarValueResp.brow_tone_value,
+    beard_tone: getAvatarValueResp.beard_tone_value,
+    eyeshadow_tone: getAvatarValueResp.eyeshadow_tone_value,
+    lipstick_tone: getAvatarValueResp.lipstick_tone_value,
+    skin_tone: getAvatarValueResp.skin_tone_value
   })
 
   res.render(path.join(__dirname, "../public/views", "3.ejs"), {
