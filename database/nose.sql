@@ -8,5 +8,3 @@ INSERT INTO nose(gender_id, name, value, idiomatic_answer) VALUES (1, 'aquiline'
 INSERT INTO nose(gender_id, name, value, idiomatic_answer) VALUES (2, 'aquiline', 1535, 'She has Name nose');
 INSERT INTO nose(gender_id, name, value, idiomatic_answer) VALUES (1, 'snub', 1488, 'He has Name nose');
 INSERT INTO nose(gender_id, name, value, idiomatic_answer) VALUES (2, 'snub', 1522, 'She has Name nose');
-INSERT INTO nose(gender_id, name, value, idiomatic_answer) VALUES (1, 'normal', 1436, 'He has Name nose');
-INSERT INTO nose(gender_id, name, value, idiomatic_answer) VALUES (2, 'normal', 1517, 'She has Name nose');
