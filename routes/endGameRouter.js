@@ -13,33 +13,29 @@ router.get("/game/:gameId/endgame", async function(req, res, next) {
     await client.getGame(req.params.gameId)
 
     let gHR = await client.getHistory(req.params.gameId)
-    logger.info(gHR)
 
     let history = new History(
       gHR.gender_idiomatic_answer,
-      gHR.eye_idiomatic_answer.replace("Name", gHR.eye_name),
-      gHR.hair_idiomatic_answer.replace("Name", gHR.hair_name),
-      gHR.mouth_idiomatic_answer.replace("Name", gHR.mouth_name),
-      gHR.nose_idiomatic_answer.replace("Name", gHR.nose_name),
-      gHR.hair_tone_idiomatic_answer.replace("Name", gHR.hair_tone_name),
-      gHR.pupil_tone_idiomatic_answer.replace("Name", gHR.pupil_tone_name),
-      gHR.beard_idiomatic_answer.replace("Name", gHR.beard_name),
-      gHR.brow_idiomatic_answer.replace("Name", gHR.brow_name),
-      gHR.ear_idiomatic_answer.replace("Name", gHR.ear_name),
-      gHR.eyelash_idiomatic_answer.replace("Name", gHR.eyelash_name),
-      gHR.glasses_idiomatic_answer.replace("Name", gHR.glasses_name),
-      gHR.jaw_idiomatic_answer.replace("Name", gHR.jaw_name),
-      gHR.brow_tone_idiomatic_answer.replace("Name", gHR.brow_tone_name),
-      gHR.beard_tone_idiomatic_answer.replace("Name", gHR.beard_tone_name),
-      gHR.eyeshadow_tone_idiomatic_answer.replace(
-        "Name",
+      replaceOrNot(gHR.eye_idiomatic_answer, gHR.eye_name),
+      replaceOrNot(gHR.hair_idiomatic_answer, gHR.hair_name),
+      replaceOrNot(gHR.mouth_idiomatic_answer, gHR.mouth_name),
+      replaceOrNot(gHR.nose_idiomatic_answer, gHR.nose_name),
+      replaceOrNot(gHR.hair_tone_idiomatic_answer, gHR.hair_tone_name),
+      replaceOrNot(gHR.pupil_tone_idiomatic_answer, gHR.pupil_tone_name),
+      replaceOrNot(gHR.beard_idiomatic_answer, gHR.beard_name),
+      replaceOrNot(gHR.brow_idiomatic_answer, gHR.brow_name),
+      replaceOrNot(gHR.ear_idiomatic_answer, gHR.ear_name),
+      replaceOrNot(gHR.eyelash_idiomatic_answer, gHR.eyelash_name),
+      replaceOrNot(gHR.glasses_idiomatic_answer, gHR.glasses_name),
+      replaceOrNot(gHR.jaw_idiomatic_answer, gHR.jaw_name),
+      replaceOrNot(gHR.brow_tone_idiomatic_answer, gHR.brow_tone_name),
+      replaceOrNot(gHR.beard_tone_idiomatic_answer, gHR.beard_tone_name),
+      replaceOrNot(
+        gHR.eyeshadow_tone_idiomatic_answer,
         gHR.eyeshadow_tone_name
       ),
-      gHR.lipstick_tone_idiomatic_answer.replace(
-        "Name",
-        gHR.lipstick_tone_name
-      ),
-      gHR.skin_tone_idiomatic_answer.replace("Name", gHR.skin_tone_name),
+      replaceOrNot(gHR.lipstick_tone_idiomatic_answer, gHR.lipstick_tone_name),
+      replaceOrNot(gHR.skin_tone_idiomatic_answer, gHR.skin_tone_name),
       gHR.gender_value,
       gHR.eye_value,
       gHR.hair_value,
@@ -106,5 +102,13 @@ router.post("/game/:gameId/endgame", async function(req, res, next) {
       })
   }
 })
+
+function replaceOrNot(string, substring) {
+  if (string == undefined) {
+    return ""
+  }
+
+  return string.replace("Name", substring)
+}
 
 module.exports = router
