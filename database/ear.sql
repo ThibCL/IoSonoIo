@@ -1,0 +1,10 @@
+INSERT INTO ear(gender_id, name, value, idiomatic_answer) VALUES (1, 'normal', 1427,'He has Name ear');
+INSERT INTO ear(gender_id, name, value, idiomatic_answer) VALUES (2, 'normal', 1433,'She has Name ear');
+INSERT INTO ear(gender_id, name, value, idiomatic_answer) VALUES (1, 'big', 1428,'He has Name ear');
+INSERT INTO ear(gender_id, name, value, idiomatic_answer) VALUES (2, 'big', 1434,'She has Name ear');
+INSERT INTO ear(gender_id, name, value, idiomatic_answer) VALUES (1, 'small', 1426,'He has Name ear');
+INSERT INTO ear(gender_id, name, value, idiomatic_answer) VALUES (2, 'small', 1432,'She has Name ear');
+INSERT INTO ear(gender_id, name, value, idiomatic_answer) VALUES (1, 'long', 1425,'He has Name ear');
+INSERT INTO ear(gender_id, name, value, idiomatic_answer) VALUES (2, 'long', 1434,'She has Name ear');
+INSERT INTO ear(gender_id, name, value, idiomatic_answer) VALUES (1, 'short', 1423,'He has Name ear');
+INSERT INTO ear(gender_id, name, value, idiomatic_answer) VALUES (2, 'short', 1432,'She has Name ear');
