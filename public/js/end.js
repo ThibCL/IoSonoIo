@@ -3,7 +3,7 @@ function startHistory(history) {
   let hist = JSON.parse(history)
   let keys = Object.keys(hist)
   keys.forEach(function(key, index) {
-    if (hist[key] != "") {
+    if (hist[key]["answer"] != "") {
       let img = document.getElementById("avimg")
 
       let p = document.createElement("p")
