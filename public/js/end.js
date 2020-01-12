@@ -16,7 +16,7 @@ function startHistory(history) {
 
     setTimeout(function() {
       p.onmouseover = () => updateImg(hist[key]["alone"]["url"])
-      p.onmouseleave = () => updateImg(hist["skin_tone"]["general"]["url"])
+      p.onmouseleave = () => updateImg(hist["pupil_tone"]["general"]["url"])
     }, keys.length * 2000)
   })
 }
