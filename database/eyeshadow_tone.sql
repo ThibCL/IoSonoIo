@@ -1,3 +1,5 @@
+INSERT INTO eyeshadow_tone(gender_id, name, value, idiomatic_answer) VALUES (1, 'no', -1,'He has Name eyeshadow');
+INSERT INTO eyeshadow_tone(gender_id, name, value, idiomatic_answer) VALUES (2, 'no', -1,'She has Name eyeshadow');
 INSERT INTO eyeshadow_tone(gender_id, name, value, idiomatic_answer) VALUES (1, 'black', 2698284,'He has Name eyeshadow');
 INSERT INTO eyeshadow_tone(gender_id, name, value, idiomatic_answer) VALUES (2, 'black', 2698284,'She has Name eyeshadow');
 INSERT INTO eyeshadow_tone(gender_id, name, value, idiomatic_answer) VALUES (1, 'brown', 8280647,'He has Name eyeshadow');

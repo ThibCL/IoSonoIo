@@ -8,5 +8,5 @@ INSERT INTO pupil_tone(gender_id, name, value, idiomatic_answer) VALUES (1, 'gol
 INSERT INTO pupil_tone(gender_id, name, value, idiomatic_answer) VALUES (2, 'gold', 11767108, 'She has Name eyes');
 INSERT INTO pupil_tone(gender_id, name, value, idiomatic_answer) VALUES (1, 'dark', 1118481, 'He has Name eyes');
 INSERT INTO pupil_tone(gender_id, name, value, idiomatic_answer) VALUES (2, 'dark', 1118481, 'She has Name eyes');
-INSERT INTO pupil_tone(gender_id, name, value, idiomatic_answer) VALUES (1, 'gray', 7693930, 'He has Name eyes');
-INSERT INTO pupil_tone(gender_id, name, value, idiomatic_answer) VALUES (2, 'gray', 7693930, 'She has Name eyes');
+INSERT INTO pupil_tone(gender_id, name, value, idiomatic_answer) VALUES (1, 'grey', 7693930, 'He has Name eyes');
+INSERT INTO pupil_tone(gender_id, name, value, idiomatic_answer) VALUES (2, 'grey', 7693930, 'She has Name eyes');
