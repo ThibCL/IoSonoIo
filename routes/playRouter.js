@@ -324,12 +324,6 @@ async function handleFirstResponse(
       }
     }
 
-    let getValueResp = await client.getValue(
-      gender,
-      context,
-      result.parameters.fields[context].stringValue
-    )
-
     id = getValueResp[context + "_id"]
   }
 
