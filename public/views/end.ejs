@@ -23,16 +23,16 @@
         </div>
     </div>
     <div class="block history">
-        <div class="title-container">
+        <div class="title-container" style="padding: 40px;">
             <p class="title">History</p>
         </div>
 
-        <div id="lines" style="height: 80vh; overflow: auto;">
+        <div id="lines" style="height: 70vh; overflow: auto; padding-left: 40px; padding-bottom:40px">
         </div>
 
         <div class="end_form">
             <form class="end_form" method="POST" action="/game/<%=id%>/endgame">
-                <input type="submit" value="end">
+                <input id="end" type="submit" value="end">
             </form>
         </div>
 

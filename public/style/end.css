@@ -56,8 +56,7 @@
 
 .end_form {
   position: absolute;
-  text-align: center;
-  bottom: 5%;
+  right: 30px;
 }
 
 #end {
