@@ -310,13 +310,17 @@ async function handleFirstResponse(
           skin_tone: getAvatarValueResp.skin_tone_value
         })
 
+        let question = getActiveQuestionResp.question
+        question = question.replace(/Described/g, getAvatarResp.name)
+        question = question.replace(/User/g, playingPlayer)
+
         res.render(path.join(__dirname, "../public/views", "3.ejs"), {
           id: gameId,
           response:
             "Sorry I don't understand what you mean, can you reformulate?",
           playing_player: playingPlayer,
           described_player: getAvatarResp.name,
-          question: getActiveQuestionResp.question,
+          question: question,
           avatar: av.url,
           end: false
         })
