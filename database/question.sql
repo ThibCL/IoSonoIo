@@ -16,7 +16,6 @@ INSERT INTO question(context, question, gender_id) VALUES('beard_tone', 'User, W
 INSERT INTO question(context, question, gender_id) VALUES('eyeshadow_tone', 'User, What color is the eyeshadow of Described?',1);
 INSERT INTO question(context, question, gender_id) VALUES('lipstick_tone', 'User, What color is the lipstick of Described?',1);
 INSERT INTO question(context, question, gender_id) VALUES('skin_tone', 'User, What color is the skin of Described?',1);
-INSERT INTO question(context, question, gender_id) VALUES('gender', 'User, What is the gender of Described?',2);
 INSERT INTO question(context, question, gender_id) VALUES('eye', 'User, What is the shape of the eyes of Described?',2);
 INSERT INTO question(context, question, gender_id) VALUES('hair', 'User, How are the hair of Described?',2);
 INSERT INTO question(context, question, gender_id) VALUES('nose', 'User, How is the nose of Described?',2);
