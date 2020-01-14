@@ -277,11 +277,56 @@ async function handleFirstResponse(
     id = getGenderResp.gender_id
   } else {
     let gender = getAvatarResp.gender_id
-    let getValueResp = await client.getValue(
-      gender,
-      context,
-      result.parameters.fields[context].stringValue
-    )
+
+    let getValueResp
+    try {
+      getValueResp = await client.getValue(
+        gender,
+        context,
+        result.parameters.fields[context].stringValue
+      )
+    } catch (e) {
+      if (e instanceof BadRequestError) {
+        let getAvatarValueResp = await client.getAvatarValue(gameId)
+
+        let av = new Avatar({
+          gender: getAvatarValueResp.gender_id,
+          eye: getAvatarValueResp.eye_value,
+          hair: getAvatarValueResp.hair_value,
+          mouth: getAvatarValueResp.mouth_value,
+          nose: getAvatarValueResp.nose_value,
+          hair_tone: getAvatarValueResp.hair_tone_value,
+          pupil_tone: getAvatarValueResp.pupil_tone_value,
+          beard: getAvatarValueResp.beard_value,
+          brow: getAvatarValueResp.brow_value,
+          ear: getAvatarValueResp.ear_value,
+          eyelash: getAvatarValueResp.eyelash_value,
+          glasses: getAvatarValueResp.glasses_value,
+          jaw: getAvatarValueResp.jaw_value,
+          brow_tone: getAvatarValueResp.brow_tone_value,
+          beard_tone: getAvatarValueResp.beard_tone_value,
+          eyeshadow_tone: getAvatarValueResp.eyeshadow_tone_value,
+          lipstick_tone: getAvatarValueResp.lipstick_tone_value,
+          skin_tone: getAvatarValueResp.skin_tone_value
+        })
+
+        let question = getActiveQuestionResp.question
+        question = question.replace(/Described/g, getAvatarResp.name)
+        question = question.replace(/User/g, playingPlayer)
+
+        res.render(path.join(__dirname, "../public/views", "3.ejs"), {
+          id: gameId,
+          response:
+            "Sorry I don't understand what you mean, can you reformulate?",
+          playing_player: playingPlayer,
+          described_player: getAvatarResp.name,
+          question: question,
+          avatar: av.url,
+          end: false
+        })
+        return
+      }
+    }
 
     id = getValueResp[context + "_id"]
   }
@@ -419,9 +464,19 @@ async function handleYesConfirmation(
   )
   question = question.replace(/User/g, playing_player.name)
 
+  let responseConfirmation = [
+    "Ok cool",
+    "Great!",
+    "Ok, next question.",
+    "Perfect, let's continue"
+  ]
+
   res.render(path.join(__dirname, "../public/views", "3.ejs"), {
     id: gameId,
-    response: "Ok cool",
+    response:
+      responseConfirmation[
+        Math.floor(Math.random() * Math.floor(responseConfirmation.length))
+      ],
     playing_player: playing_player.name,
     described_player: getAvatarResp.name,
     question: question,
@@ -472,7 +527,7 @@ async function handleNoConfirmation(
 
   res.render(path.join(__dirname, "../public/views", "3.ejs"), {
     id: gameId,
-    response: "Ok, the update has been cancel.",
+    response: "Ok, the update has been canceled.",
     playing_player: playingPlayer,
     described_player: getAvatarResp.name,
     question: question,
@@ -501,7 +556,7 @@ async function handleBadConfirmation(
     ", you said: " +
     component.idiomatic_answer.replace(/Name/g, component.name) +
     ". Is what you want?"
-  let response = "Please answer by yes or no"
+  let response = "Please answer yes or no"
 
   let getAvatarValueResp = await client.getAvatarValue(gameId)
 

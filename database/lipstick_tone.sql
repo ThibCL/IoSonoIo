@@ -1,3 +1,5 @@
+INSERT INTO lipstick_tone(gender_id, name, value, idiomatic_answer) VALUES (1, 'no', -1,'He has Name lipstick');
+INSERT INTO lipstick_tone(gender_id, name, value, idiomatic_answer) VALUES (2, 'no', -1,'She has Name lipstick');
 INSERT INTO lipstick_tone(gender_id, name, value, idiomatic_answer) VALUES (1, 'black', 2565927,'He has Name lipstick');
 INSERT INTO lipstick_tone(gender_id, name, value, idiomatic_answer) VALUES (2, 'black', 2565927,'She has Name lipstick');
 INSERT INTO lipstick_tone(gender_id, name, value, idiomatic_answer) VALUES (1, 'brown', 6946830,'He has Name lipstick');

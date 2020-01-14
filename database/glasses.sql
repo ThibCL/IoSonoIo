@@ -24,8 +24,8 @@ INSERT INTO glasses(gender_id, name, value, idiomatic_answer) VALUES (1, 'wears 
 INSERT INTO glasses(gender_id, name, value, idiomatic_answer) VALUES (2, 'wears round silver glasses', 2371,'She Name');
 INSERT INTO glasses(gender_id, name, value, idiomatic_answer) VALUES (1, 'wears round gold glasses', 1370,'He Name');
 INSERT INTO glasses(gender_id, name, value, idiomatic_answer) VALUES (2, 'wears round gold glasses', 1370,'She Name');
-INSERT INTO glasses(gender_id, name, value, idiomatic_answer) VALUES (1, 'wears square glasses', 1459,'He Name');
-INSERT INTO glasses(gender_id, name, value, idiomatic_answer) VALUES (2, 'wears square glasses', 1459,'She Name');
+INSERT INTO glasses(gender_id, name, value, idiomatic_answer) VALUES (1, 'wears square glasses', 2459,'He Name');
+INSERT INTO glasses(gender_id, name, value, idiomatic_answer) VALUES (2, 'wears square glasses', 2459,'She Name');
 INSERT INTO glasses(gender_id, name, value, idiomatic_answer) VALUES (1, 'wears square white glasses', 2457,'He Name');
 INSERT INTO glasses(gender_id, name, value, idiomatic_answer) VALUES (2, 'wears square white glasses', 2457,'She Name');
 INSERT INTO glasses(gender_id, name, value, idiomatic_answer) VALUES (1, 'wears square silver glasses', 2458,'He Name');
