@@ -22,14 +22,23 @@
       <!-- get avatar information from the server -->
       <img src="<%=avatar%>">
     </div>
+    <div class="buttons-container">
+      <form method="GET" action="/game/<%=id%>/endgame">
+        <input class="end" type="submit" value="End Game">
+      </form>
+      <form method="POST" action="/game/<%=id%>/endgame">
+        <input class="end" type="submit" value="New Game">
+      </form>
+
+    </div>
 
   </div>
   <div class="block chatbox">
     <% if (end==false) { %>
-      <div id="mic-container">
-        <button id="slash-mic" type="button"><i class="fas fa-microphone-slash"></i></button>
-      </div>
-      <% } %>
+    <div id="mic-container">
+      <button id="slash-mic" type="button"><i class="fas fa-microphone-slash"></i></button>
+    </div>
+    <% } %>
     <div id="chatbox-container" style="padding: 80px 40px;">
       <!-- agent's chat : #agent-chatbox.innerHTML will deleted every time speaker said -->
       <div id="agent-chatbox">

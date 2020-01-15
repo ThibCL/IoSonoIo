@@ -108,3 +108,17 @@ button {
   text-align: center;
   font-family: Showcard Gothic;
 }
+
+.end {
+  display: inline-block;
+  font-family: Showcard Gothic;
+  border: none;
+  color: #fddf00;
+  background-color: inherit;
+  font-size: 32px;
+}
+
+.buttons-container {
+  text-align: center;
+  justify-content: center;
+}
